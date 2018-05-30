@@ -11,6 +11,5 @@ public:
 
 private:
 	sf::Music theme;
-	void shoot();
 };
 

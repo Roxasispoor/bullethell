@@ -1,26 +1,30 @@
 #pragma once
 #include "Bullet.h"
 #include "Pattern.h"
+#include "Command.h"
+#include <SFML/Graphics.hpp>
 class Character:Body
 {
 public:
 	Character();
+	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
+	virtual void postContact(Body* other);// Implementation patron multi dispatcher
 	virtual ~Character();
-	virtual void shoot() = 0;
+	virtual void shoot();//crache un pattern
 	virtual void onDeath();
-	std::vector<Bullet*>& getCurrentBullets() {
+	std::vector<Bullet>& getCurrentBullets() {
 		return currentBullets;
 	}
-	std::vector<Bullet*>& getToDelete() {
-		return toDelete;
-	}
-
+	
+	void deleteAtEndStep();
 private:
 	std::vector<Pattern> patterns;
 	float vieMax;
 	float vieActuelle;
-	std::vector<Bullet*> currentBullets;
-	std::vector<Bullet*> toDelete;
+	std::vector<Bullet> currentBullets;
+	//std::vector<Bullet*> toDelete;// supprimer et clear a la fin
+protected:
+	Command command;
 
 };
 

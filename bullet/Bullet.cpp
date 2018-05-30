@@ -19,7 +19,8 @@ void Bullet::startCollision(Character * other)
 {
 	if (other != owner)
 	{
-		owner->getToDelete().push_back(this);
+		toDelete = true;
+			
 	}
 }
 

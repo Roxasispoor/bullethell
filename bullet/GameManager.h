@@ -3,17 +3,21 @@
 #include "Character.h"
 #include <vector>
 #include "Ennemy.h"
+#include "Player.h"
+#include <chrono>
 class GameManager
 {
 
 public:
 	GameManager() :gravity(0,0),world(gravity) {};
 	~GameManager();
+	void mainLoop();
+	void render(double timeOnNextFrame);
 	
 
 private:
 	b2World world;
-	Character hero;
+	Player hero;
 	std::vector<Ennemy> ennemisPossibles;
 	std::vector<Ennemy> ennemisEnVie;
 	b2Vec2 gravity; //nogravity
