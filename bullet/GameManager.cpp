@@ -3,10 +3,6 @@
 #define FPS 60.f
 
 
-GameManager::GameManager()
-{
-}
-
 
 GameManager::~GameManager()
 {
@@ -27,7 +23,7 @@ void GameManager::mainLoop()
 		previous = current;
 		lag += elapsed;
 
-		hero.processInput();
+		joueur.input();
 
 		while (lag >= durationFrame);
 		{

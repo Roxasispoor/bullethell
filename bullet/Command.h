@@ -1,4 +1,6 @@
-#include "Character.h";
+#pragma once
+#include "Character.h"
+class Character;
 class Command
 {
 	Character *character; 

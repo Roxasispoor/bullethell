@@ -1,8 +1,8 @@
 #pragma once
 #include "Body.h"
 #include "Character.h"
-class Bullet :
-	public Body
+class Character;
+class Bullet :public Body
 {
 public:
 	Bullet();

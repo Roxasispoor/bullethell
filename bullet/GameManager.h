@@ -17,7 +17,7 @@ public:
 
 private:
 	b2World world;
-	Player hero;
+	Player joueur;
 	std::vector<Ennemy> ennemisPossibles;
 	std::vector<Ennemy> ennemisEnVie;
 	b2Vec2 gravity; //nogravity

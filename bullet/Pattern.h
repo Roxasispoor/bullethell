@@ -1,9 +1,10 @@
 #pragma once
 #include "Character.h"
+#include "Bullet.h"
 #include <vector>
+class Bullet;
 //Classe qui permet de charger en mémoire les pattern
-class Pattern :
-	public Character
+class Pattern
 {
 private:
 	std::vector<Bullet> bullets;

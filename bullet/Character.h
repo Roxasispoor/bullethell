@@ -2,7 +2,11 @@
 #include "Bullet.h"
 #include "Pattern.h"
 #include "Command.h"
+#include <iostream>
 #include <SFML/Graphics.hpp>
+class Bullet;
+class Pattern;
+class Command;
 class Character:Body
 {
 public:
@@ -24,7 +28,7 @@ private:
 	std::vector<Bullet> currentBullets;
 	//std::vector<Bullet*> toDelete;// supprimer et clear a la fin
 protected:
-	Command command;
+	std::unique_ptr<Command> command;
 
 };
 

@@ -2,10 +2,6 @@
 #include "Body.h"
 
 
-Body::~Body()
-{
-}
-
 void Body::preContact(Body * other)
 {
 	other->preContact(this);

@@ -7,7 +7,7 @@ void Player::input()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		command.execute();
+		//command=Command(this,
 		// move left...
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
