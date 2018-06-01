@@ -2,11 +2,7 @@
 #include "Pattern.h"
 
 
-Pattern::Pattern()
-{
-}
 
-
-Pattern::~Pattern()
+void Pattern::createShoot()
 {
 }

@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractSpawner.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Character.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractSpawner.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Character.cpp" />

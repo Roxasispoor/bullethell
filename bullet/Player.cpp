@@ -5,28 +5,45 @@
 
 void Player::input()
 {
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 	//	Command test((Character*)this, &Character::shoot);
-		command = std::make_unique<Command>(this, &Character::shoot);
-			// move left...
+		toGo.x=-1;
+		
+		// move left...
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
+		toGo.x = 1;
 		// move right...
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		// quit...
+		toGo.y = 1;
+		// move right...
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		toGo.x = 1;
+		// move right...
+	}
+	commands.push_back(std::make_unique<Command>(this, &Character::move));
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		commands.push_back(std::make_unique<Command>(this, &Character::shoot));
+
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	{
+		focus = true;
+		commands.push_back(std::make_unique<Command>(this, &Character::bright));
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))//switch arms
+	{
+			chosenPattern += 1 % patterns.size();
+
+		}
 }
 
-Player::Player()
-{
-}
-
-
-Player::~Player()
-{
-}

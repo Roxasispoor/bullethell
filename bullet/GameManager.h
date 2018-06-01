@@ -9,7 +9,7 @@ class GameManager
 {
 
 public:
-	GameManager() :gravity(0,0),world(gravity) {};
+	GameManager() :gravity(0, 0), world(gravity),joueur(world) {  };
 	~GameManager();
 	void mainLoop();
 	void render(double timeOnNextFrame);
