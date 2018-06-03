@@ -29,6 +29,7 @@ void GameManager::mainLoop()
 		{
 		//const int nStepsClamped = std::min(nSteps, MAX_STEPS);
 			//update world
+			joueur.updatePhysics();
 			world.Step(1 / FPS, 8, 3);
 			lag -= durationFrame;
 		}

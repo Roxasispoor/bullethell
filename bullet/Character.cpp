@@ -2,13 +2,7 @@
 #include "Character.h"
 
 
-void Character::deleteAtEndStep()
-{
-	currentBullets.erase(
-		std::remove_if(currentBullets.begin(), currentBullets.end(),
-			[](const Bullet & o) { return o.getToDelete(); }),
-		currentBullets.end());
-}
+
 void Character::preContact(Body * other)
 {
 	other->preContact(this);
@@ -19,9 +13,20 @@ void Character::postContact(Body * other)
 	other->postContact(this);
 }
 
+/// <summary>
+/// Updates the physics of the character. Main loop
+/// </summary>
+void Character::updatePhysics()
+{
+	for (auto &p : patterns)
+	{
+		p.updatePhysics();
+	}
+}
+
 void Character::shoot()
 {
-	patterns[chosenPattern].createShoot();
+	patterns[chosenPattern].activate(false);
 
 }
 
