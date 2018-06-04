@@ -53,7 +53,6 @@ private:
 protected:
 
 	b2CircleShape shape;
-	
 	b2Fixture* fixture;
 	sf::Texture* textureActuelle;
 	b2BodyDef myBodyDef;
@@ -64,4 +63,3 @@ protected:
 	sf::Sprite sprite;
 
 };
-

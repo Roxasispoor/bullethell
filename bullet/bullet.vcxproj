@@ -164,11 +164,15 @@
     <ClInclude Include="MyContactListenner.h" />
     <ClInclude Include="Pattern.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Reflection.h" />
+    <ClInclude Include="RepeatRotation.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="AxialSymmetry.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractSpawner.cpp" />
+    <ClCompile Include="AxialSymmetry.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -179,6 +183,8 @@
     <ClCompile Include="MyContactListenner.cpp" />
     <ClCompile Include="Pattern.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Reflection.cpp" />
+    <ClCompile Include="RepeatRotation.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

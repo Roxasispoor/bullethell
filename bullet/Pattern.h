@@ -3,6 +3,7 @@
 #include "AbstractSpawner.h"
 #include "Bullet.h"
 #include <vector>
+#include "Reflection.h"
 #include <chrono>
 class Bullet;
 //Classe qui permet de charger en mémoire les pattern / les tirer
@@ -10,6 +11,7 @@ class Pattern:public AbstractSpawner
 {
 private:
 	std::vector<Bullet> bullets; //ces bullets ont une fixture des et une body def mais pas d'existence physique
+	std::vector<std::unique_ptr<Reflection>> reflections;
 
 public:
 	void createFromXml();//permet de charger les bullets en mémoire, mais n'instancie pas les objets physiques

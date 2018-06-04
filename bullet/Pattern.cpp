@@ -15,18 +15,29 @@ void Pattern::createShoot()
 {
 	auto tempsactuel = std::chrono::high_resolution_clock::now(); //On évite de rester a jamais dans la boucle si elle prend trop de temps
 	//for (auto &bullet : bullets)
-	while(timer<tempsactuel)
+	while (timer < tempsactuel)
 	{
 
 		std::unique_ptr<Bullet>
-		derivedPointer(static_cast<Bullet*>(bullets[bulletIndice].clone().release()));
+			derivedPointer(static_cast<Bullet*>(bullets[bulletIndice].clone().release()));
 		derivedPointer->createPhysical();//On rend le bullet physique
 		//+= derivedPointer->getElapsed();
-		timer+= derivedPointer->getElapsed() ;
+		timer += derivedPointer->getElapsed();
 		currentBullets.push_back(std::move(derivedPointer)); //On move
-		//on ajoute le temps et on update indice
+
+		for (auto &x : reflections)
+		{
+			std::unique_ptr<Bullet>
+				derivedPointer(static_cast<Bullet*>(bullets[bulletIndice].clone().release()));
+
+			derivedPointer->createPhysical();//On rend le bullet physique
+											 //+= derivedPointer->getElapsed();
+			timer += derivedPointer->getElapsed();
+		}
+	//on ajoute le temps et on update indice
 		bulletIndice++;
 	}
+	
 		//on verra les reflexions plus tard
 //reflected = (((normal dot vecteur) * normal) * 2) + vecteur
 	/*	b2Cross(

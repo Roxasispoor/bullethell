@@ -3,33 +3,36 @@
 #include "Character.h"
 #include <chrono>
 #include "Box2D/Collision/Shapes/b2Shape.h"
+#include "Reflection.h"
 
 class Character;
 class Bullet :public Body
 {
 public:
 	//Bullet():Body(&new b2World(b2Vec2_zero)) { 	};
-	Bullet(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2CircleShape shape,float damage, Character* owner)
-		:Body(world, texture, myBodyDef,shape),owner(owner),damage(damage) {};
+	Bullet(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2CircleShape shape, float damage, Character* owner)
+		:Body(world, texture, myBodyDef, shape), owner(owner), damage(damage) {};
 	Bullet() = delete;
 	~Bullet();
 	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
 	virtual void postContact(Body* other);// Implementation patron multi dispatcher
 	virtual void startCollision(Character* other);
 	virtual void endCollision(Character* other);
-	bool getToDelete() const{ return toDelete; };
+	bool getToDelete() const { return toDelete; };
 	virtual std::unique_ptr<Body> clone()
 	{
-	
-		return std::make_unique<Bullet>(*world,textureActuelle,myBodyDef, shape,damage,owner);
+
+		return std::make_unique<Bullet>(*world, textureActuelle, myBodyDef, shape, damage, owner);
 	};
-	std::chrono::high_resolution_clock::duration& getElapsed(){ return elapsed; };
+	virtual std::unique_ptr<Body> clone(Reflection& symetry);
+	std::chrono::high_resolution_clock::duration& getElapsed() { return elapsed; };
+	std::map<Bullet, Reflection> & getBulletReflection() { return bulletReflection; };
 	
 private:
 	float damage;
 	Character* owner;
 	bool toDelete=0;
-
+	std::map<Bullet, Reflection> bulletReflection;
 	std::chrono::high_resolution_clock::duration elapsed;//temps nécessaire pour passer au suivant.
 };
 
