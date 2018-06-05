@@ -28,16 +28,16 @@ void Player::input()
 		toGo.x = 1;
 		// move right...
 	}
-	commands.push_back(std::make_unique<Command>(this, &Character::move));
+	commands.push_back(Command(this, &Character::move));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		commands.push_back(std::make_unique<Command>(this, &Character::shoot));
+		commands.push_back(Command(this, &Character::shoot));
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 	{
 		focus = true;
-		commands.push_back(std::make_unique<Command>(this, &Character::bright));
+		commands.push_back(Command(this, &Character::bright));
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))//switch arms

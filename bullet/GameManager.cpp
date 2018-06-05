@@ -22,16 +22,20 @@ void GameManager::mainLoop()
 		//elapsed = std::min(elapsed, maxSteps * durationFrame);
 		previous = current;
 		lag += elapsed;
-
-		joueur.input();
-
+		for (auto &joueur : joueurs)
+		{
+			joueur.input();
+		}
 		while (lag >= durationFrame);
 		{
-		//const int nStepsClamped = std::min(nSteps, MAX_STEPS);
-			//update world
-			joueur.updatePhysics();
-			world.Step(1 / FPS, 8, 3);
-			lag -= durationFrame;
+			//const int nStepsClamped = std::min(nSteps, MAX_STEPS);
+				//update world
+			for (auto &joueur : joueurs)
+			{
+				joueur.updatePhysics();
+				world.Step(1 / FPS, 8, 3);
+				lag -= durationFrame;
+			}
 		}
 
 		render(lag/durationFrame);

@@ -1,6 +1,4 @@
-﻿  AbstractSpawner.cpp
-  Body.cpp
-  Bullet.cpp
+﻿  Bullet.cpp
   Character.cpp
   Command.cpp
   Ennemy.cpp

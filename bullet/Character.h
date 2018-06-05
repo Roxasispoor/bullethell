@@ -11,7 +11,8 @@ class Command;
 class Character:public Body
 {
 public:
-	Character(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef,b2CircleShape shape) :Body(world,texture,myBodyDef,shape) {};
+	Character(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef):
+		Body(world,texture,myBodyDef,fixtureDef) {};
 	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
 	virtual void postContact(Body* other);// Implementation patron multi dispatcher
 	virtual ~Character();
@@ -20,13 +21,14 @@ public:
 	void bright();
 	virtual void onDeath();
 	virtual void move();
+	
 
 private:
 	const float multiplierMove=1;
 	float vieMax;
 	float vieActuelle;
 protected:
-	std::vector<std::unique_ptr<Command>> commands;
+	std::vector<Command> commands;
 	b2Vec2 toGo;
 	bool focus;
 	int chosenPattern;

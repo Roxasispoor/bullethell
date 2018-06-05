@@ -28,7 +28,7 @@ std::unique_ptr<Body> Bullet::clone(Reflection& symetry)
 {
 	b2BodyDef bodydef(myBodyDef);
 	symetry.applyReflection(bodydef); //On le modifie comme il faut
-	return std::make_unique<Bullet>(*world, textureActuelle,bodydef, shape, damage, owner);
+	return std::make_unique<Bullet>(*world, textureActuelle,bodydef, myFixtureDef, damage, owner);
 }
 
 Bullet::~Bullet()

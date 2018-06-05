@@ -6,7 +6,7 @@ void Pattern::deleteAtEndStep()
 {
 	currentBullets.erase(
 		std::remove_if(currentBullets.begin(), currentBullets.end(),
-			[](const std::unique_ptr<Bullet> & o) { return o->getToDelete(); }),
+			[](const Bullet & o) { return o.getToDelete(); }),
 		currentBullets.end());
 }
 
@@ -18,21 +18,22 @@ void Pattern::createShoot()
 	while (timer < tempsactuel)
 	{
 
-		std::unique_ptr<Bullet>
+		/*std::unique_ptr<Bullet>
 			derivedPointer(static_cast<Bullet*>(bullets[bulletIndice].clone().release()));
-		derivedPointer->createPhysical();//On rend le bullet physique
+		*/
+		Bullet newBullet(bullets[bulletIndice]); // va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
+		currentBullets.push_back(newBullet);
+		newBullet.createPhysical();//On rend le bullet physique
 		//+= derivedPointer->getElapsed();
-		timer += derivedPointer->getElapsed();
-		currentBullets.push_back(std::move(derivedPointer)); //On move
-
+		timer += newBullet.getElapsed();
+		//currentBullets.push_back(std::move(derivedPointer)); //On move
+		
 		for (auto &x : reflections)
 		{
-			std::unique_ptr<Bullet>
-				derivedPointer(static_cast<Bullet*>(bullets[bulletIndice].clone().release()));
-
-			derivedPointer->createPhysical();//On rend le bullet physique
+//			x->applyReflection();
+		//	derivedPointer->createPhysical();//On rend le bullet physique
 											 //+= derivedPointer->getElapsed();
-			timer += derivedPointer->getElapsed();
+			//timer += derivedPointer->getElapsed();
 		}
 	//on ajoute le temps et on update indice
 		bulletIndice++;

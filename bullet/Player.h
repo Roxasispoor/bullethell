@@ -10,11 +10,12 @@ class Player :
 public:
 	void input();
 	void update();
-	Player(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2CircleShape shape) :Character(world, texture, myBodyDef,shape) {};
+	Player(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef) :
+		Character(world, texture, myBodyDef, fixtureDef) {};
 	~Player();
 	virtual std::unique_ptr<Body> clone()
 	{
-		return std::make_unique<Player>(*world,textureActuelle,myBodyDef, shape);
+		return std::make_unique<Player>(*world,textureActuelle,myBodyDef, myFixtureDef);
 	};
 };
 

@@ -10,26 +10,13 @@ class Body
 {
 public:
 
-	Body(b2World &world, sf::Texture* textureActuelle , b2BodyDef myBodyDef,b2CircleShape shape):
-		world(&world), textureActuelle(textureActuelle),myBodyDef(myBodyDef),shape(shape){
+	Body(b2World &world, sf::Texture* textureActuelle , b2BodyDef myBodyDef,b2FixtureDef fixtureDef):
+		world(&world), textureActuelle(textureActuelle),myBodyDef(myBodyDef),shape(shape),myFixtureDef(fixtureDef){
 		//std::make_unique<b2Shape>(shape);
 		myBodyDef.userData = this;
-		myFixtureDef.shape = &shape;
+
 		//on prépare le référencement a this
 	};
-	/*
-	Body(b2World &world, sf::Texture* textureActuelle, b2BodyDef myBodyDef, b2PolygonShape shape) :
-		world(&world), textureActuelle(textureActuelle), myBodyDef(myBodyDef) {
-		std::make_unique<b2Shape>(shape);
-		myBodyDef.userData = this;
-		myFixtureDef.shape = &shape;//on prépare le référencement a this
-	};
-	Body(b2World &world, sf::Texture* textureActuelle, b2BodyDef myBodyDef, b2EdgeShape shape) :
-		world(&world), textureActuelle(textureActuelle), myBodyDef(myBodyDef) {
-		std::make_unique<b2Shape>(shape);
-		myBodyDef.userData = this; //on prépare le référencement a this
-		myFixtureDef.shape = &shape;};
-		*/
 	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
 	virtual void postContact(Body* other);// Implementation patron multi dispatcher
 	virtual void startCollision(Body* other);
@@ -46,8 +33,10 @@ public:
 	{
 		world->DestroyBody(b2body); //On détruit le body dans le world
 	}
+	//b2World* getWorld() { return world; };
+	//sf::Texture* getTexture() { return world; };
+
 	
-private: 
 	
 	
 protected:
