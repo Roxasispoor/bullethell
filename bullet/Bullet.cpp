@@ -24,6 +24,10 @@ void Bullet::startCollision(Character * other)
 	}
 }
 
+void Bullet::endCollision(Character * other)
+{
+}
+
 std::unique_ptr<Body> Bullet::clone(Reflection& symetry)
 {
 	b2BodyDef bodydef(myBodyDef);

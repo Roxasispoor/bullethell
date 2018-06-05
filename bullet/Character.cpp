@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Character.h"
 
-
-
 void Character::preContact(Body * other)
 {
 	other->preContact(this);
@@ -18,22 +16,37 @@ void Character::postContact(Body * other)
 /// </summary>
 void Character::updatePhysics()
 {
+
 	for (auto &p : patterns)
 	{
 		p.updatePhysics();
+	}
+	while (!commands.empty()) //on fait toutes les commandes
+	{
+		commands.front().execute();
+		commands.pop_front();
 	}
 }
 
 void Character::shoot()
 {
-	patterns[chosenPattern].activate(false);
+	if (patterns.size() > 0)
+	{
+		patterns[chosenPattern].activate(false);
+	}
+}
 
+void Character::bright()
+{
+}
+
+void Character::onDeath()
+{
 }
 
 void Character::move()
 {
-	if (toGo.x != 0 && toGo.y != 0)
-	{
-		b2body->ApplyForce(b2Vec2(toGo.x * 100, toGo.y * 100), b2body->GetWorldCenter(), true);
-	}
+	
+		b2body->SetLinearVelocity(b2Vec2(toGo.x*speedFrame , toGo.y*speedFrame));
+	
 }

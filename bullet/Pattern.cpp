@@ -10,6 +10,10 @@ void Pattern::deleteAtEndStep()
 		currentBullets.end());
 }
 
+void Pattern::createFromXml()
+{
+}
+
 //... Ah la bonne non covenance sur les pointeurs intelligents 
 void Pattern::createShoot()
 {

@@ -158,6 +158,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Command.h" />
+    <ClInclude Include="const.h" />
     <ClInclude Include="Ennemy.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="monMain.h" />

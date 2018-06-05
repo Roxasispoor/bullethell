@@ -12,9 +12,11 @@ public:
 
 	Body(b2World &world, sf::Texture* textureActuelle , b2BodyDef myBodyDef,b2FixtureDef fixtureDef):
 		world(&world), textureActuelle(textureActuelle),myBodyDef(myBodyDef),shape(shape),myFixtureDef(fixtureDef){
+		b2body = nullptr;
 		//std::make_unique<b2Shape>(shape);
 		myBodyDef.userData = this;
-
+		sprite.setTexture(*textureActuelle);
+		sprite.setTextureRect(sf::IntRect(currentstate*spriteWidth, 0, spriteWidth, spriteHeight));
 		//on prépare le référencement a this
 	};
 	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
@@ -31,8 +33,13 @@ public:
 	void setTextureActuelle(sf::Texture* texture) { textureActuelle = texture; };
 	~Body()
 	{
-		world->DestroyBody(b2body); //On détruit le body dans le world
+		if (b2body != nullptr)
+		{
+			world->DestroyBody(b2body); //On détruit le body dans le world
+		}
 	}
+	sf::Sprite& getSprite() { return sprite; };
+	b2Body* getB2Body() { return b2body; }
 	//b2World* getWorld() { return world; };
 	//sf::Texture* getTexture() { return world; };
 
@@ -46,9 +53,11 @@ protected:
 	sf::Texture* textureActuelle;
 	b2BodyDef myBodyDef;
 	b2FixtureDef myFixtureDef;
-
 	b2Body * b2body;
 	b2World *world;
-	sf::Sprite sprite;
 
+	sf::Sprite sprite;
+	int spriteWidth = 48;
+	int spriteHeight = 64;
+	int currentstate = 1;
 };

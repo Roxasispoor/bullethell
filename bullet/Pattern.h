@@ -14,7 +14,7 @@ private:
 public:
 	void createFromXml();//permet de charger les bullets en mémoire, mais n'instancie pas les objets physiques
 	Pattern(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef) :AbstractSpawner(world, texture, myBodyDef, fixtureDef) {};
-	~Pattern();
+	//~Pattern();
 	void createShoot();
 	void updatePhysics();
 	void activate(bool isRepeating)

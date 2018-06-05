@@ -5,12 +5,13 @@
 
 void Player::input()
 {
-
+	toGo.x = 0;
+	toGo.y = 0;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 	//	Command test((Character*)this, &Character::shoot);
 		toGo.x=-1;
-		
+		//std::cout << "AAAAAAAAAAAAAAAAAAAH";
 		// move left...
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
@@ -23,9 +24,9 @@ void Player::input()
 		toGo.y = 1;
 		// move right...
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		toGo.x = 1;
+		toGo.y = -1;
 		// move right...
 	}
 	commands.push_back(Command(this, &Character::move));

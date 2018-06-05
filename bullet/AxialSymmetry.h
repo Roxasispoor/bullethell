@@ -13,7 +13,7 @@ public:
 //	AxialSymmetry(bool applyOnForce, b2Vec2 pointDepart, b2Vec2 directeur) :pointDepart(pointDepart), directeur(directeur) {};
 	AxialSymmetry(bool applyOnForce, b2Vec2 pointDepart, b2Vec2 directeur):Reflection(applyOnForce),pointDepart(pointDepart), directeur(directeur) {};
 
-	~AxialSymmetry();
+	//~AxialSymmetry();
 
 };
 

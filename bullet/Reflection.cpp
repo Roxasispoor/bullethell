@@ -11,3 +11,7 @@ Reflection::Reflection()
 Reflection::~Reflection()
 {
 }
+
+void Reflection::applyReflection(b2BodyDef & body)
+{
+}

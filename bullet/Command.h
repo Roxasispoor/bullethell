@@ -1,5 +1,4 @@
 #pragma once
-#include "Character.h"
 class Character;
 class Command
 {

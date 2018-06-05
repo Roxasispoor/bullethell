@@ -16,3 +16,7 @@ void Body::startCollision(Body * other)
 { //pas d'interaction particulière
 }
 
+void Body::endCollision(Body * other)
+{
+}
+

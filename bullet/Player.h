@@ -12,7 +12,7 @@ public:
 	void update();
 	Player(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef) :
 		Character(world, texture, myBodyDef, fixtureDef) {};
-	~Player();
+	//~Player();
 	virtual std::unique_ptr<Body> clone()
 	{
 		return std::make_unique<Player>(*world,textureActuelle,myBodyDef, myFixtureDef);

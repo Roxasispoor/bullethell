@@ -3,7 +3,15 @@
 #include "Command.h"
 #include "Character.h"
 
+
 void Command::execute()
 {
-	(character->*method)();
+	try
+	{
+		(character->*method)();
+	}
+	catch (_exception e)
+	{
+		std::cout << "ballek";
+	}
 }
