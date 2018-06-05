@@ -38,7 +38,14 @@ void Player::input()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 	{
 		focus = true;
-		commands.push_back(Command(this, &Character::bright));
+		multiplierMove = 0.5;
+	//	commands.push_back(Command(this, &Character::bright));
+	}
+	else
+	{
+		focus = false;
+		multiplierMove = 1;
+
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))//switch arms

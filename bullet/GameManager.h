@@ -7,14 +7,18 @@
 #include <chrono>
 #include "MyContactListenner.h"
 #include "const.h"
+
+
 class GameManager
 {
 
-
+	
 public:
 	GameManager() :gravity(0, 0), world(gravity),textureMap(),
-		window(sf::VideoMode(800, 600), "My window") {
-	
+		window(sf::VideoMode(1920, 1080), "Bullet heaven", sf::Style::Fullscreen) {
+
+		//world.SetDebugDraw(
+			//world.SetDebugDraw();
 		for (auto x : aliasFichierNames) //On remplit les textures et on les mets a jour
 		{
 
@@ -55,7 +59,8 @@ private:
 	b2Vec2 gravity; //nogravity
 	MyContactListener listenner;
 	sf::RenderWindow window;
-//	bool doSleep = true;
+
+	bool doSleep = true;
 };
 	
 

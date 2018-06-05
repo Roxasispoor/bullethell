@@ -10,12 +10,21 @@ GameManager::~GameManager()
 
 void GameManager::mainLoop()
 {
+
+
 	auto previous = std::chrono::system_clock::now();
 	std::chrono::duration<double> durationFrame(1 / FPS);
 	std::chrono::duration<double> lag;
 	const int maxSteps = 5;
 	while (window.isOpen())
 	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			// fermeture de la fenêtre lorsque l'utilisateur le souhaite
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
 		auto current = std::chrono::system_clock::now();
 		std::chrono::duration<double> elapsed = current - previous;
 		//Si on a trop de frame de retard on
@@ -31,26 +40,25 @@ void GameManager::mainLoop()
 			for (auto &joueur : joueurs)
 			{
 				joueur.input();
-				joueur.updatePhysics();
+				joueur.updatePhysics(elapsed);
 				world.Step(1 / FPS, 8, 3);
-				b2Vec2 newpos = joueur.getB2Body()->GetPosition();
-				joueur.getSprite().setPosition(newpos.x, newpos.y);
-
+				joueur.updateVisuel();	
+				
 				lag -= durationFrame;
 			}
 		}
 		window.clear(sf::Color::Black);
+		
 		render(lag/durationFrame);
 	}
 }
 
 void GameManager::render(double timeOnNextFrame)
 {
-	world.DrawDebugData();
 	for (auto &x : joueurs)
 	{
-		window.draw(x.getSprite());
-		
+		x.draw(window);
+			
 	}
 	window.display();
 

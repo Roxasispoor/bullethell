@@ -14,9 +14,15 @@ void Character::postContact(Body * other)
 /// <summary>
 /// Updates the physics of the character. Main loop
 /// </summary>
-void Character::updatePhysics()
+void Character::updatePhysics(std::chrono::duration<double> elapsed)
 {
-
+	accumulated += elapsed;
+	if (accumulated > timePassNext)
+	{
+		accumulated -= timePassNext;
+		currentstate = (currentstate + 1) % numberState;
+		sprite.setTextureRect(sf::IntRect(currentstate*spriteWidth, 0, spriteWidth, spriteHeight));
+	}
 	for (auto &p : patterns)
 	{
 		p.updatePhysics();
@@ -47,6 +53,8 @@ void Character::onDeath()
 void Character::move()
 {
 	
-		b2body->SetLinearVelocity(b2Vec2(toGo.x*speedFrame , toGo.y*speedFrame));
+	toGo.Normalize();
+	b2body->SetLinearVelocity(b2Vec2(toGo.x*speedFrame*multiplierMove , toGo.y*speedFrame*multiplierMove));
 	
 }
+

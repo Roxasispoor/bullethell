@@ -16,19 +16,34 @@ public:
 		//std::make_unique<b2Shape>(shape);
 		myBodyDef.userData = this;
 		sprite.setTexture(*textureActuelle);
+		sprite.setOrigin(spriteWidth / 2, spriteHeight * 0.7);
 		sprite.setTextureRect(sf::IntRect(currentstate*spriteWidth, 0, spriteWidth, spriteHeight));
+		
+
 		//on prépare le référencement a this
 	};
+	void draw(sf::RenderWindow& window)
+	{
+		window.draw(sprite);
+		if (drawHitBox)
+		{
+			window.draw(hitbox);
+		}
+	}
+
 	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
 	virtual void postContact(Body* other);// Implementation patron multi dispatcher
 	virtual void startCollision(Body* other);
 	virtual void endCollision(Body* other);
 	virtual std::unique_ptr<Body> clone() = 0;
+	void updateVisuel();
 	void createPhysical()
 	{
 		b2body=world->CreateBody(&myBodyDef);
 		fixture=b2body->CreateFixture(&myFixtureDef);
-
+		hitbox.setRadius(fixture->GetShape()->m_radius);
+		hitbox.setOrigin(sf::Vector2f(hitbox.getRadius(), hitbox.getRadius()));
+		hitbox.setFillColor(sf::Color::Red);
 	};
 	void setTextureActuelle(sf::Texture* texture) { textureActuelle = texture; };
 	~Body()
@@ -40,6 +55,7 @@ public:
 	}
 	sf::Sprite& getSprite() { return sprite; };
 	b2Body* getB2Body() { return b2body; }
+	//b2Body* getB2Body() { return b2body; }
 	//b2World* getWorld() { return world; };
 	//sf::Texture* getTexture() { return world; };
 
@@ -55,7 +71,9 @@ protected:
 	b2FixtureDef myFixtureDef;
 	b2Body * b2body;
 	b2World *world;
-
+	sf::CircleShape hitbox;
+	bool drawHitBox = true;
+	sf::Vector2i screenWidth;
 	sf::Sprite sprite;
 	int spriteWidth = 48;
 	int spriteHeight = 64;

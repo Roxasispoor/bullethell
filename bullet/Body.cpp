@@ -20,3 +20,10 @@ void Body::endCollision(Body * other)
 {
 }
 
+void Body::updateVisuel()
+{
+
+	sprite.setPosition(b2body->GetPosition().x, b2body->GetPosition().y);
+	hitbox.setPosition(b2body->GetPosition().x, b2body->GetPosition().y);
+}
+
