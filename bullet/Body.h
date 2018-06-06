@@ -55,6 +55,9 @@ public:
 	}
 	sf::Sprite& getSprite() { return sprite; };
 	b2Body* getB2Body() { return b2body; }
+	b2BodyDef& getBodyDef() {
+		return myBodyDef;
+	};
 	//b2Body* getB2Body() { return b2body; }
 	//b2World* getWorld() { return world; };
 	//sf::Texture* getTexture() { return world; };

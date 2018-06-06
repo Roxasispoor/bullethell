@@ -2,9 +2,6 @@
 #include "RepeatRotation.h"
 
 
-RotationOnce::RotationOnce()
-{
-}
 
 
 RotationOnce::~RotationOnce()

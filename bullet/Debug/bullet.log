@@ -1,5 +1,8 @@
-﻿  Player.cpp
+﻿  Pattern.cpp
 e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\pattern.cpp(36): warning C4244: 'argument': conversion from 'int' to 'float32', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\pattern.cpp(37): warning C4244: 'argument': conversion from 'int' to 'float32', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\pattern.cpp(47): warning C4244: 'argument': conversion from 'int' to 'float32', possible loss of data
 MyContactListenner.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
   bullet.vcxproj -> E:\cours\JIN\c++\lool\bullet\Debug\bullet.lib

@@ -11,8 +11,10 @@ class Bullet :public Body
 public:
 	//SHAPE IS CLONED BY BOX2d
 	//Bullet():Body(&new b2World(b2Vec2_zero)) { 	};
-	Bullet(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, float damage, Character* owner)
-		:Body(world, texture, myBodyDef,fixtureDef), owner(owner), damage(damage) {};
+	Bullet(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, float damage,
+		Character* owner,bool centerOnEnnemy,bool towardEnnemy)
+		:Body(world, texture, myBodyDef,fixtureDef), owner(owner), damage(damage)
+		, centerOnEnnemy(centerOnEnnemy), towardEnnemy(towardEnnemy){};
 	Bullet() = delete;
 //	Bullet(const Bullet & truc) = delete;
 
@@ -26,17 +28,20 @@ public:
 	virtual std::unique_ptr<Body> clone()
 	{
 
-		return std::make_unique<Bullet>(*world, textureActuelle, myBodyDef, myFixtureDef, damage, owner);
+		return std::make_unique<Bullet>(*world, textureActuelle, myBodyDef, myFixtureDef, damage,
+			owner, centerOnEnnemy, towardEnnemy);
 	};
 	virtual std::unique_ptr<Body> clone(Reflection& symetry);
 	std::chrono::high_resolution_clock::duration& getElapsed() { return elapsed; };
-	std::map<Bullet, Reflection> & getBulletReflection() { return bulletReflection; };
+	//std::map<Bullet, Reflection> & getBulletReflection() { return bulletReflection; };
 	
 private:
 	float damage;
 	Character* owner;
 	bool toDelete=0;
-	std::map<Bullet, Reflection> bulletReflection;
+	bool centerOnEnnemy;
+	bool towardEnnemy;
+//	int numeroReflection; // c'est egalement le numero de l'indice du boulet
 	std::chrono::high_resolution_clock::duration elapsed;//temps nécessaire pour passer au suivant.
 };
 

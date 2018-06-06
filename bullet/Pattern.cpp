@@ -1,17 +1,58 @@
 #include "stdafx.h"
 #include "Pattern.h"
+#include "AxialSymmetry.h"
+#include "RepeatRotation.h"
 
 
 void Pattern::deleteAtEndStep()
 {
+	for(auto &vect:currentBullets)
+	{
+		vect.erase(
+			std::remove_if(vect.begin(), vect.end(),
+				[](const Bullet & o) { return o.getToDelete(); }),
+			vect.end());
+	}
+	//On supprime les bullets dans leurs vector, puis le vector si il est vide
 	currentBullets.erase(
 		std::remove_if(currentBullets.begin(), currentBullets.end(),
-			[](const Bullet & o) { return o.getToDelete(); }),
-		currentBullets.end());
+			[](const std::vector<Bullet> & o) {return o.size() == 0; }), currentBullets.end());
+	
 }
 
 void Pattern::createFromXml()
 {
+	pugi::xml_node reflectionsNode = doc.child("Reflection");
+	pugi::xml_node bulletsNode = doc.child("Bullets");
+	for (pugi::xml_node nod = reflectionsNode.first_child(); nod; nod = nod.next_sibling())
+	{
+		if (nod.name() == "SymetrieAxiale")
+		{
+			
+		
+
+			auto s=std::make_shared<AxialSymmetry>
+				(nod.attribute("applyOnForce").as_bool(), nod.attribute("centeredOnEnnemy").as_bool(),
+					b2Vec2(nod.attribute("departX").as_int(), nod.attribute("departY").as_int()),
+					b2Vec2(nod.attribute("directionX").as_int(), nod.attribute("directionY").as_int()));
+					reflections.push_back(s);
+		}
+		else if (nod.name() == "Rotation")
+		{
+
+
+				auto s = std::make_shared<RotationOnce>
+				(nod.attribute("applyOnForce").as_bool(), nod.attribute("centeredOnEnnemy").as_bool(),
+					nod.attribute("numberRepeat").as_int(),
+					b2Vec2(nod.attribute("departX").as_int(), nod.attribute("departY").as_int()),
+					nod.attribute("angle").as_float()
+					);
+			reflections.push_back(s);
+		}
+		
+		//nod.attribute("").as_int()
+		
+	}
 }
 
 //... Ah la bonne non covenance sur les pointeurs intelligents 
@@ -26,7 +67,8 @@ void Pattern::createShoot()
 			derivedPointer(static_cast<Bullet*>(bullets[bulletIndice].clone().release()));
 		*/
 		Bullet newBullet(bullets[bulletIndice]); // va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
-		currentBullets.push_back(newBullet);
+		currentBullets.push_back(std::vector<Bullet>());
+			currentBullets[bulletIndice].push_back(newBullet);
 		newBullet.createPhysical();//On rend le bullet physique
 		//+= derivedPointer->getElapsed();
 		timer += newBullet.getElapsed();
@@ -34,6 +76,21 @@ void Pattern::createShoot()
 		
 		for (auto &x : reflections)
 		{
+			for (auto& bullet : currentBullets[bulletIndice])
+			{
+				Bullet BulletToCopy = bullet;
+				for (int i = 0; i < x->getnumberCopies(); i++)
+				{
+					Bullet newBullet(BulletToCopy);
+
+					x->applyReflection(newBullet.getBodyDef());
+
+					currentBullets[bulletIndice].push_back(newBullet);
+					newBullet.createPhysical();
+
+					BulletToCopy = newBullet; // On se décale par rapport au précédent
+				}
+			}
 //			x->applyReflection();
 		//	derivedPointer->createPhysical();//On rend le bullet physique
 											 //+= derivedPointer->getElapsed();

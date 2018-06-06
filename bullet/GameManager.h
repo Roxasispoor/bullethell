@@ -30,11 +30,11 @@ public:
 		}
 		
 		b2FixtureDef fixturePlayer;
-		 b2CircleShape shapePlayer;
-		 b2BodyDef bodyDef;
-		 bodyDef.type = b2_dynamicBody; //this will be a dynamic body
-		 shapePlayer.m_radius = 5;
-		 fixturePlayer.shape = &shapePlayer; //sera copiée, np
+		b2CircleShape shapePlayer;
+		b2BodyDef bodyDef;
+		bodyDef.type = b2_dynamicBody; //this will be a dynamic body
+		shapePlayer.m_radius = 5;
+		fixturePlayer.shape = &shapePlayer; //sera copiée, np
 		  joueurs.push_back(Player (world, &textureMap["joueur"], bodyDef, fixturePlayer));
 		  joueurs[0].createPhysical();
 		
@@ -63,4 +63,3 @@ private:
 	bool doSleep = true;
 };
 	
-
