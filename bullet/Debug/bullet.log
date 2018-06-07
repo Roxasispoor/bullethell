@@ -1,10 +1,10 @@
-﻿  Ennemy.cpp
-e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  GameManager.cpp
+﻿  GameManager.cpp
 e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   monMain.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Player.cpp
 e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Generating Code...

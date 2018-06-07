@@ -67,23 +67,24 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 				if (attribute == "Circle")
 			{
 
-				auto shape=std::make_shared<b2CircleShape> ();
+				std::shared_ptr<b2Shape> shape=std::make_shared<b2CircleShape> ();
 				shape->m_radius = nod.attribute("radius").as_float();
 				fixture.shape = shape.get();
-				Bullet bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
-					nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool());
-				bullet.setShape(
 
-				bullets.push_back();
+				bullets.push_back(Bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
+					nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape));
 			}
 				if (attribute == "Rectangle")
 				{
 
 					auto shape = std::make_shared<b2PolygonShape>();
+
+
 					shape->SetAsBox(nod.attribute("width").as_float(), nod.attribute("height").as_float());
-					fixture.shape = shape.get();
+					std::shared_ptr<b2Shape> shape2 = shape;
+					fixture.shape = shape2.get();
 					bullets.push_back(Bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
-						nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool()));
+						nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape2));
 				}
 			
 	}

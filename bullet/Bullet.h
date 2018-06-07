@@ -12,8 +12,8 @@ public:
 	//SHAPE IS CLONED BY BOX2d
 	//Bullet():Body(&new b2World(b2Vec2_zero)) { 	};
 	Bullet(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, float damage,
-		Character* owner,bool centerOnEnnemy,bool towardEnnemy)
-		:Body(world, texture, myBodyDef,fixtureDef), owner(owner), damage(damage)
+		Character* owner,bool centerOnEnnemy,bool towardEnnemy,std::shared_ptr<b2Shape> shape)
+		:Body(world, texture, myBodyDef,fixtureDef, shape), owner(owner), damage(damage)
 		, centerOnEnnemy(centerOnEnnemy), towardEnnemy(towardEnnemy){};
 	Bullet() = delete;
 //	Bullet(const Bullet & truc) = delete;
@@ -29,7 +29,7 @@ public:
 	{
 
 		return std::make_unique<Bullet>(*world, textureActuelle, myBodyDef, myFixtureDef, damage,
-			owner, centerOnEnnemy, towardEnnemy);
+			owner, centerOnEnnemy, towardEnnemy,shape);
 	};
 	virtual std::unique_ptr<Body> clone(Reflection& symetry);
 	std::chrono::high_resolution_clock::duration& getElapsed() { return elapsed; };

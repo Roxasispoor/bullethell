@@ -10,8 +10,8 @@ class Body
 {
 public:
 
-	Body(b2World &world, sf::Texture* textureActuelle , b2BodyDef myBodyDef,b2FixtureDef fixtureDef):
-		world(&world), textureActuelle(textureActuelle),myBodyDef(myBodyDef),myFixtureDef(fixtureDef){
+	Body(b2World &world, sf::Texture* textureActuelle , b2BodyDef myBodyDef,b2FixtureDef fixtureDef, std::shared_ptr<b2Shape> shape):
+		world(&world), textureActuelle(textureActuelle),myBodyDef(myBodyDef),myFixtureDef(fixtureDef),shape(shape){
 		b2body = nullptr;
 		//std::make_unique<b2Shape>(shape);
 		myBodyDef.userData = this;

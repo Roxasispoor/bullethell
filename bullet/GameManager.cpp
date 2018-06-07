@@ -87,7 +87,7 @@ void GameManager::createPatternsFromXml(std::string patternsFile)
 	{
 		b2BodyDef bodydef;
 		b2FixtureDef fixdef;
-		auto shape = std::make_shared<b2CircleShape>();
+		std::shared_ptr<b2Shape> shape = std::make_shared<b2CircleShape>();
 		fixdef.shape = shape.get();
 
 		bodydef.position.Set(nod.attribute("departX").as_float(), nod.attribute("departY").as_float());
@@ -95,7 +95,7 @@ void GameManager::createPatternsFromXml(std::string patternsFile)
 		std::string nom= nod.name(); //Conversion implicite
 		if ( nom== "Pattern")
 		{
-			Pattern newPattern(world, &textureMap[nod.attribute("texture").as_string()], bodydef, b2FixtureDef());
+			Pattern newPattern(world, &textureMap[nod.attribute("texture").as_string()], bodydef, fixdef,shape);
 			newPattern.createFromXml(nod,textureMap);
 			patternsPossibles.push_back(newPattern);
 			

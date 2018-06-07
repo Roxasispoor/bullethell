@@ -16,8 +16,8 @@ class Pattern:public AbstractSpawner
 public:
 	void createFromXml(pugi::xml_node patternNode, std::map<std::string, sf::Texture> &textureMap);
 	//permet de charger les bullets en mémoire, mais n'instancie pas les objets physiques
-	Pattern(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef) :
-		AbstractSpawner(world, texture, myBodyDef, fixtureDef) {
+	Pattern(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, std::shared_ptr<b2Shape> shape) :
+		AbstractSpawner(world, texture, myBodyDef, fixtureDef,shape) {
 			
 	};
 	//~Pattern();
@@ -31,7 +31,7 @@ public:
 	void deleteAtEndStep();
 	virtual std::unique_ptr<Body> clone()
 	{
-		return std::make_unique<Pattern>(*world, textureActuelle, myBodyDef, myFixtureDef);
+		return std::make_unique<Pattern>(*world, textureActuelle, myBodyDef, myFixtureDef,shape);
 	};
 	/*Pattern(Pattern& const pattern) :Pattern(*pattern.world, pattern.textureActuelle, pattern.myBodyDef, pattern.myFixtureDef){	
 	

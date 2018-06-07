@@ -12,8 +12,8 @@ class Command;
 class Character:public Body
 {
 public:
-	Character(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef):
-		Body(world,texture,myBodyDef,fixtureDef),timePassNext(0.5),accumulated(0) {
+	Character(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, std::shared_ptr<b2Shape> shape):
+		Body(world,texture,myBodyDef,fixtureDef,shape),timePassNext(0.5),accumulated(0) {
 		
 		chosenPattern = 0;
 	};

@@ -35,7 +35,8 @@ public:
 		bodyDef.type = b2_dynamicBody; //this will be a dynamic body
 		shapePlayer.m_radius = 5;
 		fixturePlayer.shape = &shapePlayer; //sera copiée, np
-		joueurs.push_back(Player (world, &textureMap["joueur"], bodyDef, fixturePlayer));
+		joueurs.push_back(Player (world, &textureMap["joueur"], bodyDef, 
+			fixturePlayer,std::make_shared<b2CircleShape>(shapePlayer)));
 		joueurs[0].createPhysical();
 
 		pugi::xml_document documentEnnemies;
@@ -61,8 +62,8 @@ public:
 				fixtureEnnemy.shape = shape.get();
 
 
-				Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy);
-				ennemi.setShape(shape);
+				Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy,shape);
+//				ennemi.setShape(shape);
 				ennemisPossibles.push_back(std::move(ennemi));
 			}
 			if (forme == "Rectangle")
@@ -71,9 +72,10 @@ public:
 				auto shape = std::make_shared<b2PolygonShape>();
 				shape->SetAsBox(nod.attribute("width").as_float(), nod.attribute("height").as_float());
 				
-				Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy);
 				std::shared_ptr<b2Shape> shape2 = shape;
-				ennemi.setShape(shape2);
+				Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy,shape2);
+				
+				//ennemi.setShape(shape2);
 				fixtureEnnemy.shape = shape2.get();
 				ennemisPossibles.push_back(ennemi);
 			}
