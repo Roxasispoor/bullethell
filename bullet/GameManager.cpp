@@ -10,7 +10,8 @@ GameManager::~GameManager()
 
 void GameManager::mainLoop()
 {
-
+	ennemisEnVie.push_back(ennemisPossibles[0]);//*(static_cast<Ennemy*>(ennemisPossibles[0].clone().get())));
+	ennemisEnVie[0].createPhysical();
 
 	auto previous = std::chrono::system_clock::now();
 	std::chrono::duration<double> durationFrame(1 / FPS);
@@ -46,6 +47,11 @@ void GameManager::mainLoop()
 				
 				lag -= durationFrame;
 			}
+			for (auto& ennemy : ennemisEnVie)
+			{
+				ennemy.updatePhysics(elapsed);
+				ennemy.updateVisuel();
+			}
 		}
 		window.clear(sf::Color::Black);
 		
@@ -59,6 +65,11 @@ void GameManager::render(double timeOnNextFrame)
 	{
 		x.draw(window);
 			
+	}
+	for (auto &ennemy : ennemisEnVie)
+	{
+		ennemy.draw(window);
+
 	}
 	window.display();
 
@@ -75,7 +86,10 @@ void GameManager::createPatternsFromXml(std::string patternsFile)
 	for (pugi::xml_node nod = doc.first_child(); nod; nod = nod.next_sibling()) //on parcourt les patterns
 	{
 		b2BodyDef bodydef;
-		
+		b2FixtureDef fixdef;
+		auto shape = std::make_shared<b2CircleShape>();
+		fixdef.shape = shape.get();
+
 		bodydef.position.Set(nod.attribute("departX").as_float(), nod.attribute("departY").as_float());
 		bodydef.angle = nod.attribute("angle").as_float();
 		std::string nom= nod.name(); //Conversion implicite

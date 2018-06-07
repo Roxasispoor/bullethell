@@ -1,1 +1,12 @@
-﻿  bullet.vcxproj -> E:\cours\JIN\c++\lool\bullet\Debug\bullet.lib
+﻿  Ennemy.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  GameManager.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  monMain.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+MyContactListenner.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+  bullet.vcxproj -> E:\cours\JIN\c++\lool\bullet\Debug\bullet.lib

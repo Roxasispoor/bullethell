@@ -12,7 +12,7 @@ void Character::postContact(Body * other)
 }
 
 /// <summary>
-/// Updates the physics of the character. Main loop
+/// Updates the physics of the character et l'état de sa sprite Main loop
 /// </summary>
 void Character::updatePhysics(std::chrono::duration<double> elapsed)
 {
@@ -21,7 +21,7 @@ void Character::updatePhysics(std::chrono::duration<double> elapsed)
 	{
 		accumulated -= timePassNext;
 		currentstate = (currentstate + 1) % numberState;
-		sprite.setTextureRect(sf::IntRect(currentstate*spriteWidth, 0, spriteWidth, spriteHeight));
+		sprite.setTextureRect(sf::IntRect(currentstate*spriteWidth, hauteurInSprite*spriteHeight, spriteWidth, spriteHeight));
 	}
 	for (auto &p : patterns)
 	{

@@ -35,9 +35,50 @@ public:
 		bodyDef.type = b2_dynamicBody; //this will be a dynamic body
 		shapePlayer.m_radius = 5;
 		fixturePlayer.shape = &shapePlayer; //sera copiée, np
-		  joueurs.push_back(Player (world, &textureMap["joueur"], bodyDef, fixturePlayer));
-		  joueurs[0].createPhysical();
-		
+		joueurs.push_back(Player (world, &textureMap["joueur"], bodyDef, fixturePlayer));
+		joueurs[0].createPhysical();
+
+		pugi::xml_document documentEnnemies;
+		if (!documentEnnemies.load_file("../ennemies.xml"))
+		{
+			std::cout << "Error lors du loading de ennemies";
+		}
+		pugi::xml_node docEnnemies = documentEnnemies;
+
+		for (pugi::xml_node nod = docEnnemies.first_child(); nod; nod = nod.next_sibling())
+		{
+			b2BodyDef ennemydef;
+			b2FixtureDef fixtureEnnemy;
+			ennemydef.position.x = nod.attribute("departX").as_float();
+			ennemydef.position.y = nod.attribute("departY").as_float();
+			ennemydef.angle = nod.attribute("angle").as_float();
+			std::string forme = nod.attribute("shape").as_string();
+			if (forme == "Circle")
+			{
+
+				std::shared_ptr<b2Shape> shape = std::make_shared<b2CircleShape>();
+				shape->m_radius = nod.attribute("radius").as_float();
+				fixtureEnnemy.shape = shape.get();
+
+
+				Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy);
+				ennemi.setShape(shape);
+				ennemisPossibles.push_back(std::move(ennemi));
+			}
+			if (forme == "Rectangle")
+			{
+
+				auto shape = std::make_shared<b2PolygonShape>();
+				shape->SetAsBox(nod.attribute("width").as_float(), nod.attribute("height").as_float());
+				
+				Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy);
+				std::shared_ptr<b2Shape> shape2 = shape;
+				ennemi.setShape(shape2);
+				fixtureEnnemy.shape = shape2.get();
+				ennemisPossibles.push_back(ennemi);
+			}
+
+		}
 		//joueurs[0].setTextureActuelle(&textureMap["joueur"]);
 		};//on remplira la texture du joueur juste après les avoir load
 	~GameManager();
@@ -48,7 +89,7 @@ public:
 private:
 	//const std::pair<std::string, std::string>aliasFichiers = { ["blah","blah"] };
 	
-	std::map<std::string, std::string> aliasFichierNames = { {"../joueur.png","joueur"},{"../bullets.png","bullet"},{ "../laser.png","laser" } };
+	std::map<std::string, std::string> aliasFichierNames = { {"../joueur.png","joueur"},{"../bullets.png","bullet"},{ "../laser.png","laser"},{"../ghostmaiden.png","ghostmaiden"} };
 	b2World world;
 
 	std::vector<Pattern> patternsPossibles;

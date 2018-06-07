@@ -58,6 +58,11 @@ public:
 	b2BodyDef& getBodyDef() {
 		return myBodyDef;
 	};
+	std::shared_ptr<b2Shape>& getShape() { return shape ; };
+	void setShape(std::shared_ptr<b2Shape> shapey) { shape = shapey; };
+	//void setShape( shapey) { shape=shapey ; };
+	//void setShape(b2PolygonShape& shapey) { shape=shapey ; };
+	
 	//b2Body* getB2Body() { return b2body; }
 	//b2World* getWorld() { return world; };
 	//sf::Texture* getTexture() { return world; };
@@ -82,4 +87,5 @@ protected:
 	int spriteWidth = 48;
 	int spriteHeight = 64;
 	int currentstate = 1;
+	int hauteurInSprite=0;
 };

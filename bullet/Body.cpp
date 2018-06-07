@@ -19,7 +19,9 @@ void Body::startCollision(Body * other)
 void Body::endCollision(Body * other)
 {
 }
-
+/// <summary>
+/// Updates the visual. met en accord la position box2d et sfml
+/// </summary>
 void Body::updateVisuel()
 {
 

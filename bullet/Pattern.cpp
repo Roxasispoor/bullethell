@@ -70,8 +70,11 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 				auto shape=std::make_shared<b2CircleShape> ();
 				shape->m_radius = nod.attribute("radius").as_float();
 				fixture.shape = shape.get();
-				bullets.push_back(Bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
-					nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool()));
+				Bullet bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
+					nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool());
+				bullet.setShape(
+
+				bullets.push_back();
 			}
 				if (attribute == "Rectangle")
 				{
