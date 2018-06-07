@@ -26,13 +26,13 @@ public:
 	void bright();
 	virtual void onDeath();
 	virtual void move();
-		
-private:
+	std::vector<Pattern>& getPatterns() { return patterns; };
 
-	
+	protected:
+
 	float vieMax;
 	float vieActuelle;
-protected:
+
 	float multiplierMove = 1;
 	float speedFrame = 0.6*FPS;
 	std::chrono::duration<double> timePassNext;

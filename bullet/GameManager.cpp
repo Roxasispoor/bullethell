@@ -96,6 +96,7 @@ void GameManager::createPatternsFromXml(std::string patternsFile)
 		if ( nom== "Pattern")
 		{
 			Pattern newPattern(world, &textureMap[nod.attribute("texture").as_string()], bodydef, fixdef,shape);
+			newPattern.createPhysical();
 			newPattern.createFromXml(nod,textureMap);
 			patternsPossibles.push_back(newPattern);
 			

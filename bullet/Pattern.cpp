@@ -103,7 +103,7 @@ void Pattern::createShoot()
 		*/
 		Bullet newBullet(bullets[bulletIndice]); // va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
 		currentBullets.push_back(std::vector<Bullet>());
-			currentBullets[bulletIndice].push_back(newBullet);
+		currentBullets[bulletIndice].push_back(newBullet);
 		newBullet.createPhysical();//On rend le bullet physique
 		//+= derivedPointer->getElapsed();
 		timer += newBullet.getElapsed();
@@ -113,17 +113,17 @@ void Pattern::createShoot()
 		{
 			for (auto& bullet : currentBullets[bulletIndice])
 			{
-				Bullet BulletToCopy = bullet;
+				Bullet BulletToCopy = std::move(bullet); //On évite une copie qui ferait double free
 				for (int i = 0; i < x->getnumberCopies(); i++)
 				{
-					Bullet newBullet(BulletToCopy);
+					Bullet newBullet2(BulletToCopy);
 
-					x->applyReflection(newBullet.getBodyDef());
+					x->applyReflection(newBullet2.getBodyDef());
 
-					currentBullets[bulletIndice].push_back(newBullet);
-					newBullet.createPhysical();
+					currentBullets[bulletIndice].push_back(newBullet2);
+					newBullet2.createPhysical();
 
-					BulletToCopy = newBullet; // On se décale par rapport au précédent
+					BulletToCopy = std::move(newBullet2); // On se décale par rapport au précédent
 				}
 			}
 //			x->applyReflection();

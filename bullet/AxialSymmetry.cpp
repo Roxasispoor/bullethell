@@ -3,7 +3,9 @@
 
 void AxialSymmetry::applyReflection(b2BodyDef & body)
 {
-	b2Vec2 normal=b2Cross((body.position-pointDepart).Length(), directeur);
+	double length = (body.position - pointDepart).Length();
+	directeur.Normalize();
+	b2Vec2 normal=b2Cross(length, directeur);
 	body.position -= 2 * normal;//On soustrait 2* vecteur
 
 	//On calcule l'angle entre la symétrie et un pigeon 

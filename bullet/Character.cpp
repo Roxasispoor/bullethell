@@ -23,14 +23,15 @@ void Character::updatePhysics(std::chrono::duration<double> elapsed)
 		currentstate = (currentstate + 1) % numberState;
 		sprite.setTextureRect(sf::IntRect(currentstate*spriteWidth, hauteurInSprite*spriteHeight, spriteWidth, spriteHeight));
 	}
-	for (auto &p : patterns)
-	{
-		p.updatePhysics();
-	}
+
 	while (!commands.empty()) //on fait toutes les commandes
 	{
 		commands.front().execute();
 		commands.pop_front();
+	}
+	for (auto &p : patterns)
+	{
+		p.updatePhysics();
 	}
 }
 

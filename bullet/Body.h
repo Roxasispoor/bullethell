@@ -48,10 +48,10 @@ public:
 	void setTextureActuelle(sf::Texture* texture) { textureActuelle = texture; };
 	~Body()
 	{
-		if (b2body != nullptr)
-		{
-			world->DestroyBody(b2body); //On détruit le body dans le world
-		}
+		//if (b2body != nullptr)
+		//{
+//			world->DestroyBody(b2body); //On détruit le body dans le world
+		//}
 	}
 	sf::Sprite& getSprite() { return sprite; };
 	b2Body* getB2Body() { return b2body; }
