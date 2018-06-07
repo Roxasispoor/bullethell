@@ -11,7 +11,7 @@ class Body
 public:
 
 	Body(b2World &world, sf::Texture* textureActuelle , b2BodyDef myBodyDef,b2FixtureDef fixtureDef):
-		world(&world), textureActuelle(textureActuelle),myBodyDef(myBodyDef),shape(shape),myFixtureDef(fixtureDef){
+		world(&world), textureActuelle(textureActuelle),myBodyDef(myBodyDef),myFixtureDef(fixtureDef){
 		b2body = nullptr;
 		//std::make_unique<b2Shape>(shape);
 		myBodyDef.userData = this;
@@ -67,7 +67,8 @@ public:
 	
 protected:
 
-	b2CircleShape shape;
+	//b2CircleShape shape;
+	std::shared_ptr<b2Shape> shape;
 	b2Fixture* fixture;
 	sf::Texture* textureActuelle;
 	b2BodyDef myBodyDef;

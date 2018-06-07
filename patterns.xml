@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- Attention les reflections sont effectuées danss l'ordre d'écriture et prennent en comptent les autres reflexions -->
+<!-- Des valeurs spéciales sont autorisées en position: owner et ennemy -->
+<Pattern departX="5" departY="-5" angle="0" texture="spawner">
+<Reflection>
+<SymetrieAxiale departX="60" departY="600" directionX="10" directionY="10" centeredOnEnnemy="false" applyOnForce="false"/>
+<Rotation departX="10" departY="10" directionX="0" directionY="1" numberRepetition="4" angle="0.45" centeredOnEnnemy="true" applyOnForce="true"/> <!-- centré de base autour du pattern -->
+</Reflection>
+<Bullets> <!-- On initialise le body de pattern par rapport au personnage; Vitesse normalisee avec le nombre de frame, ne pas s'en faire-->
+<Bullet departX="10" departY="10" speed="1" angle="20" towardEnnemy="false"  centeredOnEnnemy="false" shape="Circle" radius="5" texture="bullet" damage="10"> 
+<Bullet departX="10" departY="10" speed="1" angle="0" towardEnnemy="true"  centeredOnEnnemy="false" shape="Rectangle" height="5" width="100" texture="laser" damage="10"> 
+<Bullet departX="0"  departY="10" speed="2" angle="0" towardEnnemy="false" centeredOnEnnemy="true" shape="Circle" radius="10" texture="bullet" damage="20"> 
+<Bullets>
+</Pattern>

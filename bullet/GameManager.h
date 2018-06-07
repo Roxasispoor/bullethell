@@ -28,7 +28,7 @@ public:
 				std::cout << "erreur de chargement de " << x.first;
 			}
 		}
-		
+		createPatternsFromXml("../patterns.xml");
 		b2FixtureDef fixturePlayer;
 		b2CircleShape shapePlayer;
 		b2BodyDef bodyDef;
@@ -39,18 +39,19 @@ public:
 		  joueurs[0].createPhysical();
 		
 		//joueurs[0].setTextureActuelle(&textureMap["joueur"]);
-	};//on remplira la texture du joueur juste après les avoir load
+		};//on remplira la texture du joueur juste après les avoir load
 	~GameManager();
 	void mainLoop();
 	void render(double timeOnNextFrame);
-
+	void createPatternsFromXml(std::string patternsFile);
 
 private:
 	//const std::pair<std::string, std::string>aliasFichiers = { ["blah","blah"] };
 	
-	std::map<std::string, std::string> aliasFichierNames = { {"../joueur.png","joueur"} };
+	std::map<std::string, std::string> aliasFichierNames = { {"../joueur.png","joueur"},{"../bullets.png","bullet"},{ "../laser.png","laser" } };
 	b2World world;
-	
+
+	std::vector<Pattern> patternsPossibles;
 	//Player joueur;
 	std::map<std::string, sf::Texture> textureMap;
 	std::vector<Player> joueurs;

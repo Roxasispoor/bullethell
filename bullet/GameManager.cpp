@@ -63,3 +63,35 @@ void GameManager::render(double timeOnNextFrame)
 	window.display();
 
 }
+
+void GameManager::createPatternsFromXml(std::string patternsFile)
+{
+	pugi::xml_document document;
+	if (!document.load_file(patternsFile.c_str()))
+	{
+		std::cout << "Error lors du loading de " << patternsFile;
+	}
+	pugi::xml_node doc = document;
+	for (pugi::xml_node nod = doc.first_child(); nod; nod = nod.next_sibling()) //on parcourt les patterns
+	{
+		b2BodyDef bodydef;
+		
+		bodydef.position.Set(nod.attribute("departX").as_float(), nod.attribute("departY").as_float());
+		bodydef.angle = nod.attribute("angle").as_float();
+		std::string nom= nod.name(); //Conversion implicite
+		if ( nom== "Pattern")
+		{
+			Pattern newPattern(world, &textureMap[nod.attribute("texture").as_string()], bodydef, b2FixtureDef());
+			newPattern.createFromXml(nod,textureMap);
+			patternsPossibles.push_back(newPattern);
+			
+		}
+		else
+		{
+			std::cout << "Pattern mal écrit dans le fichier xml";
+		}
+	}
+	
+
+
+}

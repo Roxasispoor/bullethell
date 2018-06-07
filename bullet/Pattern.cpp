@@ -20,13 +20,14 @@ void Pattern::deleteAtEndStep()
 	
 }
 
-void Pattern::createFromXml()
+void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf::Texture>& textureMap)
 {
-	pugi::xml_node reflectionsNode = doc.child("Reflection");
-	pugi::xml_node bulletsNode = doc.child("Bullets");
+	pugi::xml_node reflectionsNode = patternNode.child("Reflection");
+	pugi::xml_node bulletsNode = patternNode.child("Bullets");
 	for (pugi::xml_node nod = reflectionsNode.first_child(); nod; nod = nod.next_sibling())
 	{
-		if (nod.name() == "SymetrieAxiale")
+		std::string name = nod.name();//conversion implicite
+		if ( name== "SymetrieAxiale")
 		{
 			
 		
@@ -37,7 +38,7 @@ void Pattern::createFromXml()
 					b2Vec2(nod.attribute("directionX").as_int(), nod.attribute("directionY").as_int()));
 					reflections.push_back(s);
 		}
-		else if (nod.name() == "Rotation")
+		else if (name == "Rotation")
 		{
 
 
@@ -52,6 +53,36 @@ void Pattern::createFromXml()
 		
 		//nod.attribute("").as_int()
 		
+	}
+
+	for (pugi::xml_node nod = bulletsNode.first_child(); nod; nod = nod.next_sibling())
+	{
+			b2BodyDef def;
+			def.type = b2_dynamicBody; //this will be a dynamic body
+			def.position.Set(nod.attribute("departX").as_float() , nod.attribute("departY").as_float()); //set the starting position
+			def.angle = nod.attribute("departY").as_float();
+			
+			b2FixtureDef fixture;
+			std::string attribute = nod.attribute("shape").as_string();
+				if (attribute == "Circle")
+			{
+
+				auto shape=std::make_shared<b2CircleShape> ();
+				shape->m_radius = nod.attribute("radius").as_float();
+				fixture.shape = shape.get();
+				bullets.push_back(Bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
+					nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool()));
+			}
+				if (attribute == "Rectangle")
+				{
+
+					auto shape = std::make_shared<b2PolygonShape>();
+					shape->SetAsBox(nod.attribute("width").as_float(), nod.attribute("height").as_float());
+					fixture.shape = shape.get();
+					bullets.push_back(Bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
+						nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool()));
+				}
+			
 	}
 }
 
