@@ -64,15 +64,17 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 			
 			b2FixtureDef fixture;
 			std::string attribute = nod.attribute("shape").as_string();
-				if (attribute == "Circle")
+			std::chrono::milliseconds ms1(nod.attribute("temps").as_int());
+			
+			if (attribute == "Circle")
 			{
 
 				std::shared_ptr<b2Shape> shape=std::make_shared<b2CircleShape> ();
 				shape->m_radius = nod.attribute("radius").as_float();
 				fixture.shape = shape.get();
-
+				
 				bullets.push_back(Bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
-					nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape));
+					nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape, std::chrono::high_resolution_clock::duration(ms1)));
 			}
 				if (attribute == "Rectangle")
 				{
@@ -84,55 +86,56 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 					std::shared_ptr<b2Shape> shape2 = shape;
 					fixture.shape = shape2.get();
 					bullets.push_back(Bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
-						nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape2));
+						nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape2, std::chrono::high_resolution_clock::duration(ms1)));
 				}
 			
 	}
 }
 
-//... Ah la bonne non covenance sur les pointeurs intelligents 
 void Pattern::createShoot()
 {
 	auto tempsactuel = std::chrono::high_resolution_clock::now(); //On évite de rester a jamais dans la boucle si elle prend trop de temps
 	//for (auto &bullet : bullets)
-	while (timer < tempsactuel)
+	 if (timer < tempsactuel && isActivated )
 	{
 
 		/*std::unique_ptr<Bullet>
 			derivedPointer(static_cast<Bullet*>(bullets[bulletIndice].clone().release()));
 		*/
-		Bullet newBullet(bullets[bulletIndice]); // va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
+		Bullet newBullet(bullets[(bulletIndice+1)%bullets.size()]); // va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
 		currentBullets.push_back(std::vector<Bullet>());
-		currentBullets[bulletIndice].push_back(newBullet);
+		
+		newBullet.setOwner(owner);//les copies font que ça ira bien pour les réflexions
+
 		newBullet.createPhysical();//On rend le bullet physique
 		//+= derivedPointer->getElapsed();
+		currentBullets[bulletIndice].push_back(newBullet); // O push back APRES l'avoir rendu physique 
 		timer += newBullet.getElapsed();
 		//currentBullets.push_back(std::move(derivedPointer)); //On move
-		
-		for (auto &x : reflections)
+		Bullet toCopy = std::move(newBullet);
+		for (auto &reflection : reflections)
 		{
-			for (auto& bullet : currentBullets[bulletIndice])
+			int aRecopier = currentBullets[bulletIndice].size(); //les symetries scale entre elles
+			for (int j=0;j< aRecopier;j++)
 			{
-				Bullet BulletToCopy = std::move(bullet); //On évite une copie qui ferait double free
-				for (int i = 0; i < x->getnumberCopies(); i++)
+				for (int i = 0; i < reflection->getnumberCopies(); i++)
 				{
-					Bullet newBullet2(BulletToCopy);
-
-					x->applyReflection(newBullet2.getBodyDef());
-
-					currentBullets[bulletIndice].push_back(newBullet2);
-					newBullet2.createPhysical();
-
-					BulletToCopy = std::move(newBullet2); // On se décale par rapport au précédent
+					Bullet currentSymetrised(currentBullets[bulletIndice][j]);
+					reflection->applyReflection(currentSymetrised.getBodyDef());
+					currentSymetrised.createPhysical();
+					currentBullets[bulletIndice].push_back(currentSymetrised);
+			
 				}
+				
 			}
-//			x->applyReflection();
-		//	derivedPointer->createPhysical();//On rend le bullet physique
-											 //+= derivedPointer->getElapsed();
-			//timer += derivedPointer->getElapsed();
 		}
 	//on ajoute le temps et on update indice
 		bulletIndice++;
+		if (!isRepeating)
+		{
+			isActivated = false;
+		}
+		//On retourne a zero si on repète, on s'arrête sinon
 	}
 	
 		//on verra les reflexions plus tard
@@ -140,7 +143,10 @@ void Pattern::createShoot()
 	/*	b2Cross(
 	for(x:
 	}*/
-	
+	if (!isRepeating)
+	{
+		isActivated = false;
+	}
 
 }
 

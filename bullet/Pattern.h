@@ -7,7 +7,9 @@
 #include <chrono>
 #include <pugixml.hpp>
 #include <iostream>
+ 
 class Bullet;
+class Character;
 //Classe qui permet de charger en mémoire les pattern / les tirer
 class Pattern:public AbstractSpawner
 {
@@ -21,6 +23,7 @@ public:
 			
 	};
 	//~Pattern();
+	void setOwner(Character* ownere) { owner = ownere; }
 	void createShoot();
 	void updatePhysics();
 	void activate(bool isRepeating)
@@ -33,6 +36,7 @@ public:
 	{
 		return std::make_unique<Pattern>(*world, textureActuelle, myBodyDef, myFixtureDef,shape);
 	};
+	void setTimer(std::chrono::high_resolution_clock::time_point timerino) { timer = timerino; };
 	/*Pattern(Pattern& const pattern) :Pattern(*pattern.world, pattern.textureActuelle, pattern.myBodyDef, pattern.myFixtureDef){	
 	
 	}*/
@@ -41,6 +45,7 @@ private:
 	std::vector<Bullet> bullets; //ces bullets ont une fixture des et une body def mais pas d'existence physique
 	std::vector<std::shared_ptr<Reflection>> reflections;
 	std::chrono::high_resolution_clock::time_point timer;
+	Character *owner;
 	int bulletIndice = 0;
 	bool isRepeating = false;
 	//int symetryIndice = 0;

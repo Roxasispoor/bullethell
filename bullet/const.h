@@ -1,3 +1,3 @@
 #pragma once
-#define FPS 60.f
+#define FPS 40.f
 #define PPM 5;

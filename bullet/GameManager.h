@@ -37,7 +37,11 @@ public:
 		fixturePlayer.shape = &shapePlayer; //sera copiée, np
 		joueurs.push_back(Player (world, &textureMap["joueur"], bodyDef, 
 			fixturePlayer,std::make_shared<b2CircleShape>(shapePlayer)));
+
 		joueurs[0].getPatterns().push_back(patternsPossibles[0]);
+		joueurs[0].getPatterns()[0].setOwner(&joueurs[0]);
+		//On donne un pattern au joueur
+		
 		joueurs[0].createPhysical();
 
 		pugi::xml_document documentEnnemies;

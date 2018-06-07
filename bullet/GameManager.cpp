@@ -41,9 +41,9 @@ void GameManager::mainLoop()
 			for (auto &joueur : joueurs)
 			{
 				joueur.input();
-				joueur.updatePhysics(elapsed);
-				world.Step(1 / FPS, 8, 3);
-				joueur.updateVisuel();	
+
+				world.Step(1 / FPS, 3, 0);
+				
 				
 				lag -= durationFrame;
 			}
@@ -52,6 +52,11 @@ void GameManager::mainLoop()
 				ennemy.updatePhysics(elapsed);
 				ennemy.updateVisuel();
 			}
+		}
+		for (auto &joueur : joueurs)
+		{
+			joueur.updateVisuel();
+			joueur.updatePhysics(elapsed);
 		}
 		window.clear(sf::Color::Black);
 		

@@ -39,6 +39,7 @@ void Character::shoot()
 {
 	if (patterns.size() > 0)
 	{
+		patterns[chosenPattern].setTimer(std::chrono::high_resolution_clock::now());
 		patterns[chosenPattern].activate(false);
 	}
 }
