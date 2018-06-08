@@ -15,7 +15,9 @@ public:
 		Character* owner,bool centerOnEnnemy,bool towardEnnemy,std::shared_ptr<b2Shape> shape, std::chrono::milliseconds milliseconds)
 		:Body(world, texture, myBodyDef,fixtureDef, shape), owner(owner), damage(damage)
 		, centerOnEnnemy(centerOnEnnemy), towardEnnemy(towardEnnemy), elapsed(milliseconds){
-		fixtureDef.isSensor = true;
+		
+		this->myBodyDef.userData = this;
+		//myFixtureDef.userData = this;
 	
 	};
 	Bullet() = delete;
@@ -38,7 +40,10 @@ public:
 	std::chrono::milliseconds& getElapsed() { return elapsed; };
 	void setOwner(Character *ownere) { owner = ownere; };
 	//std::map<Bullet, Reflection> & getBulletReflection() { return bulletReflection; };
-	
+	virtual void updateUserData() {
+		myBodyDef.userData = this;
+
+	}
 private:
 	float damage;
 	Character* owner;

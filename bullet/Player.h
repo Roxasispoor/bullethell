@@ -10,12 +10,19 @@ class Player :
 public:
 	void input();
 	void update();
-	Player(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, std::shared_ptr<b2Shape> shape) :
-		Character(world, texture, myBodyDef, fixtureDef,shape) {};
+	virtual void updateUserData() {
+		myBodyDef.userData = this;
+	}
+	Player(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef,
+		std::shared_ptr<b2Shape> shape, float lifemax) :
+		Character(world, texture, myBodyDef, fixtureDef,shape,lifemax) {
+		this->myBodyDef.userData = this;
+		//myFixtureDef.userData = this;
+	};
 	//~Player();
 	virtual std::unique_ptr<Body> clone()
 	{
-		return std::make_unique<Player>(*world,textureActuelle,myBodyDef, myFixtureDef,shape);
+		return std::make_unique<Player>(*world,textureActuelle,myBodyDef, myFixtureDef,shape,vieMax);
 	};
 };
 

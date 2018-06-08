@@ -14,9 +14,19 @@ public:
 		world(&world), textureActuelle(textureActuelle),myBodyDef(myBodyDef),myFixtureDef(fixtureDef),shape(shape){
 		b2body = nullptr;
 		//std::make_unique<b2Shape>(shape);
-		myBodyDef.userData = this;
+		
 		sprite.setTexture(*textureActuelle);
-		sprite.setOrigin(spriteWidth / 2, spriteHeight * 0.7);
+		if (shape->m_type == b2Shape::e_circle)//on mets plutot au centre de la sprite
+		{
+			sprite.setOrigin(spriteWidth / 2, spriteHeight * 0.7);
+		}
+		else if(shape->m_type == b2Shape::e_polygon)
+		{
+			b2PolygonShape* rectShape = static_cast<b2PolygonShape*>(shape.get());
+			spriteHeight = abs(rectShape->GetVertex(0).y*2);
+			spriteWidth = abs(rectShape->GetVertex(0).x*2);
+			sprite.setOrigin(-rectShape->GetVertex(0).x, -rectShape->GetVertex(0).y);
+		}
 		sprite.setTextureRect(sf::IntRect(currentstate*spriteWidth, 0, spriteWidth, spriteHeight));
 		
 
@@ -31,6 +41,7 @@ public:
 		}
 	}
 
+	virtual void updateUserData() { myBodyDef.userData = this; }
 	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
 	virtual void postContact(Body* other);// Implementation patron multi dispatcher
 	virtual void startCollision(Body* other);
@@ -39,12 +50,22 @@ public:
 	void updateVisuel();
 	void createPhysical()
 	{
-		myFixtureDef.isSensor = true;
+		//myFixtureDef.isSensor = true;
+	//	myBodyDef.userData = this;
+		//myFixtureDef.userData = this;
 		b2body=world->CreateBody(&myBodyDef);
 		fixture=b2body->CreateFixture(&myFixtureDef);
-		hitbox.setRadius(myFixtureDef.shape->m_radius);
-		hitbox.setOrigin(sf::Vector2f(hitbox.getRadius(), hitbox.getRadius()));
-		hitbox.setFillColor(sf::Color::Red);
+		if (myFixtureDef.shape->GetType() == b2Shape::e_circle)
+		{
+			hitbox.setRadius(myFixtureDef.shape->m_radius);
+			hitbox.setOrigin(sf::Vector2f(hitbox.getRadius(), hitbox.getRadius()));
+			hitbox.setFillColor(sf::Color::Red);
+		}
+		else
+		{
+			drawHitBox = false;
+		}
+		b2body->SetUserData(this);
 	};
 	void setTextureActuelle(sf::Texture* texture) { textureActuelle = texture; };
 	~Body()

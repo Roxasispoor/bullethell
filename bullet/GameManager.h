@@ -16,7 +16,7 @@ class GameManager
 public:
 	GameManager() :gravity(0, 0), world(gravity),textureMap(),
 		window(sf::VideoMode(1920, 1080), "Bullet heaven", sf::Style::Fullscreen) {
-
+		world.SetContactListener(&listenner);
 		//world.SetDebugDraw(
 			//world.SetDebugDraw();
 		for (auto x : aliasFichierNames) //On remplit les textures et on les mets a jour
@@ -36,7 +36,7 @@ public:
 		shapePlayer.m_radius = 5;
 		fixturePlayer.shape = &shapePlayer; //sera copiée, np
 		joueurs.push_back(Player (world, &textureMap["joueur"], bodyDef, 
-			fixturePlayer,std::make_shared<b2CircleShape>(shapePlayer)));
+			fixturePlayer,std::make_shared<b2CircleShape>(shapePlayer),100.f));
 
 		joueurs[0].getPatterns().push_back(patternsPossibles[0]);
 		joueurs[0].getPatterns()[0].setOwner(&joueurs[0]);
@@ -58,6 +58,7 @@ public:
 			ennemydef.position.x = nod.attribute("departX").as_float();
 			ennemydef.position.y = nod.attribute("departY").as_float();
 			ennemydef.angle = nod.attribute("angle").as_float();
+			
 			std::string forme = nod.attribute("shape").as_string();
 			if (forme == "Circle")
 			{
@@ -67,7 +68,7 @@ public:
 				fixtureEnnemy.shape = shape.get();
 
 
-				Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy,shape);
+				Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy,shape,nod.attribute("life").as_float());
 //				ennemi.setShape(shape);
 				ennemisPossibles.push_back(std::move(ennemi));
 			}
@@ -78,7 +79,7 @@ public:
 				shape->SetAsBox(nod.attribute("width").as_float(), nod.attribute("height").as_float());
 				
 				std::shared_ptr<b2Shape> shape2 = shape;
-				Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy,shape2);
+				Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy,shape2, nod.attribute("life").as_float());
 				
 				//ennemi.setShape(shape2);
 				fixtureEnnemy.shape = shape2.get();

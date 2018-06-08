@@ -12,8 +12,9 @@ class Command;
 class Character:public Body
 {
 public:
-	Character(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, std::shared_ptr<b2Shape> shape):
-		Body(world,texture,myBodyDef,fixtureDef,shape),timePassNext(0.5),accumulated(0) {
+	Character(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, 
+		std::shared_ptr<b2Shape> shape, float lifemax):
+		Body(world,texture,myBodyDef,fixtureDef,shape),timePassNext(0.5),accumulated(0),vieMax(lifemax),vieActuelle(lifemax) {
 		
 		chosenPattern = 0;
 	};
@@ -24,6 +25,9 @@ public:
 	virtual void updatePhysics(std::chrono::duration<double> elapsed);
 	virtual void shoot();//crache un pattern
 	void bright();
+	virtual void updateUserData() {
+		myBodyDef.userData = this;
+	}
 	virtual void onDeath();
 	virtual void move();
 	std::vector<Pattern>& getPatterns() { return patterns; };

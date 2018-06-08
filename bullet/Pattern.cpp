@@ -94,12 +94,13 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 
 					auto shape = std::make_shared<b2PolygonShape>();
 
-
+					
 					shape->SetAsBox(nod.attribute("width").as_float(), nod.attribute("height").as_float());
 					std::shared_ptr<b2Shape> shape2 = shape;
 					fixture.shape = shape2.get();
 					bullets.push_back(Bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
 						nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape2, ms1));
+				
 				}
 			
 	}
@@ -119,19 +120,22 @@ void Pattern::createShoot()
 			derivedPointer(static_cast<Bullet*>(bullets[bulletIndice].clone().release()));
 		*/
 		Bullet newBullet(bullets[(bulletIndice+1)%bullets.size()]);
+		//newBullet.getBodyDef().userData = &newBullet; //obligatoire pour le double dispatch
+
 		newBullet.getBodyDef().position = owner->getB2Body()->GetPosition();// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
 		//TODO modifier pour prendre le pattern
 		
 		currentBullets.push_back(std::vector<Bullet>());
 		
-		newBullet.setOwner(owner);//les copies font que ça ira bien pour les réflexions
+		//les copies font que ça ira bien pour les réflexions
 
-		newBullet.createPhysical();//On rend le bullet physique
+	
 		//+= derivedPointer->getElapsed();
 		timer += newBullet.getElapsed();
 		
 		currentBullets[bulletIndice].push_back(newBullet); // O push back APRES l'avoir rendu physique 
-
+		currentBullets[bulletIndice][currentBullets[bulletIndice].size() - 1].createPhysical();//On rend le bullet physique
+	 //		currentBullets[bulletIndice][currentBullets[bulletIndice].size() - 1].updateUserData();
 		//currentBullets.push_back(std::move(derivedPointer)); //On move
 		Bullet toCopy = std::move(newBullet);
 		/*for (auto &reflection : reflections)
@@ -142,10 +146,12 @@ void Pattern::createShoot()
 				for (int i = 0; i < reflection->getnumberCopies(); i++)
 				{
 					Bullet currentSymetrised(currentBullets[bulletIndice][j]);
-					reflection->applyReflection(currentSymetrised.getBodyDef());
+				 	reflection->applyReflection(currentSymetrised.getBodyDef());
+					currentSymetrised.getBodyDef().userData = &currentSymetrised; //obligatoire pour le double dispatch
+
 					currentSymetrised.createPhysical();
 					currentBullets[bulletIndice].push_back(currentSymetrised);
-			
+					currentBullets[bulletIndice][currentBullets[bulletIndice].size() - 1].updateUserData();
 				}
 				
 			}

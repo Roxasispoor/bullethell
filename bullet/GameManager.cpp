@@ -16,7 +16,7 @@ void GameManager::mainLoop()
 	auto previous = std::chrono::system_clock::now();
 	std::chrono::duration<double> durationFrame(1 / FPS);
 	std::chrono::duration<double> lag;
-	const int maxSteps = 5;
+	//const int maxSteps = 5;
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -45,7 +45,7 @@ void GameManager::mainLoop()
 				joueur.updateVisuel();
 				joueur.updatePhysics(elapsed);
 
-				world.Step(1 / FPS, 6, 3);
+				world.Step(1 / FPS, 8, 2);
 				
 				
 				lag -= durationFrame;
