@@ -20,6 +20,18 @@ void Pattern::deleteAtEndStep()
 	
 }
 
+void Pattern::draw(sf::RenderWindow & window)
+{
+	for (auto &x : currentBullets)
+	{
+		for (auto &bullet : x)
+		{
+			bullet.updateVisuel();
+			bullet.draw(window);
+		}
+	}
+}
+
 void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf::Texture>& textureMap)
 {
 	pugi::xml_node reflectionsNode = patternNode.child("Reflection");
@@ -61,7 +73,8 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 			def.type = b2_dynamicBody; //this will be a dynamic body
 			def.position.Set(nod.attribute("departX").as_float() , nod.attribute("departY").as_float()); //set the starting position
 			def.angle = nod.attribute("departY").as_float();
-			
+			def.linearVelocity.x = nod.attribute("speed").as_float()*cos(nod.attribute("angle").as_float())*FPS;//TODO MODIFIER ET FAIRE A L'INIT 
+			def.linearVelocity.y = nod.attribute("speed").as_float()*sin(nod.attribute("angle").as_float())*FPS;//TODO MODIFIER ET FAIRE A L'INIT 
 			b2FixtureDef fixture;
 			std::string attribute = nod.attribute("shape").as_string();
 			std::chrono::milliseconds ms1(nod.attribute("temps").as_int());
@@ -74,7 +87,7 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 				fixture.shape = shape.get();
 				
 				bullets.push_back(Bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
-					nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape, std::chrono::high_resolution_clock::duration(ms1)));
+					nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape, ms1));
 			}
 				if (attribute == "Rectangle")
 				{
@@ -86,7 +99,7 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 					std::shared_ptr<b2Shape> shape2 = shape;
 					fixture.shape = shape2.get();
 					bullets.push_back(Bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
-						nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape2, std::chrono::high_resolution_clock::duration(ms1)));
+						nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape2, ms1));
 				}
 			
 	}
@@ -94,26 +107,34 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 
 void Pattern::createShoot()
 {
-	auto tempsactuel = std::chrono::high_resolution_clock::now(); //On évite de rester a jamais dans la boucle si elle prend trop de temps
+
+	auto tempsactuel = std::chrono::system_clock::now(); //On évite de rester a jamais dans la boucle si elle prend trop de temps
 	//for (auto &bullet : bullets)
+//std::cout << (timer - tempsactuel).count()<<"\n";
+
 	 if (timer < tempsactuel && isActivated )
 	{
 
 		/*std::unique_ptr<Bullet>
 			derivedPointer(static_cast<Bullet*>(bullets[bulletIndice].clone().release()));
 		*/
-		Bullet newBullet(bullets[(bulletIndice+1)%bullets.size()]); // va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
+		Bullet newBullet(bullets[(bulletIndice+1)%bullets.size()]);
+		newBullet.getBodyDef().position = owner->getB2Body()->GetPosition();// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
+		//TODO modifier pour prendre le pattern
+		
 		currentBullets.push_back(std::vector<Bullet>());
 		
 		newBullet.setOwner(owner);//les copies font que ça ira bien pour les réflexions
 
 		newBullet.createPhysical();//On rend le bullet physique
 		//+= derivedPointer->getElapsed();
-		currentBullets[bulletIndice].push_back(newBullet); // O push back APRES l'avoir rendu physique 
 		timer += newBullet.getElapsed();
+		
+		currentBullets[bulletIndice].push_back(newBullet); // O push back APRES l'avoir rendu physique 
+
 		//currentBullets.push_back(std::move(derivedPointer)); //On move
 		Bullet toCopy = std::move(newBullet);
-		for (auto &reflection : reflections)
+		/*for (auto &reflection : reflections)
 		{
 			int aRecopier = currentBullets[bulletIndice].size(); //les symetries scale entre elles
 			for (int j=0;j< aRecopier;j++)
@@ -128,25 +149,26 @@ void Pattern::createShoot()
 				}
 				
 			}
-		}
+		}*/
 	//on ajoute le temps et on update indice
 		bulletIndice++;
-		if (!isRepeating)
-		{
-			isActivated = false;
-		}
+		
 		//On retourne a zero si on repète, on s'arrête sinon
 	}
+	 else
+	 {
+		 if (!isRepeating)
+		 {
+			 isActivated = false;
+		 }
+	 }
 	
 		//on verra les reflexions plus tard
 //reflected = (((normal dot vecteur) * normal) * 2) + vecteur
 	/*	b2Cross(
 	for(x:
 	}*/
-	if (!isRepeating)
-	{
-		isActivated = false;
-	}
+
 
 }
 

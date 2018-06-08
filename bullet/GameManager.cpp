@@ -42,7 +42,10 @@ void GameManager::mainLoop()
 			{
 				joueur.input();
 
-				world.Step(1 / FPS, 3, 0);
+				joueur.updateVisuel();
+				joueur.updatePhysics(elapsed);
+
+				world.Step(1 / FPS, 6, 3);
 				
 				
 				lag -= durationFrame;
@@ -53,11 +56,7 @@ void GameManager::mainLoop()
 				ennemy.updateVisuel();
 			}
 		}
-		for (auto &joueur : joueurs)
-		{
-			joueur.updateVisuel();
-			joueur.updatePhysics(elapsed);
-		}
+
 		window.clear(sf::Color::Black);
 		
 		render(lag/durationFrame);
@@ -66,6 +65,7 @@ void GameManager::mainLoop()
 
 void GameManager::render(double timeOnNextFrame)
 {
+	
 	for (auto &x : joueurs)
 	{
 		x.draw(window);
@@ -76,6 +76,7 @@ void GameManager::render(double timeOnNextFrame)
 		ennemy.draw(window);
 
 	}
+	
 	window.display();
 
 }

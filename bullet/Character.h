@@ -27,8 +27,9 @@ public:
 	virtual void onDeath();
 	virtual void move();
 	std::vector<Pattern>& getPatterns() { return patterns; };
-
-	protected:
+	virtual void draw(sf::RenderWindow& window);
+	
+protected:
 
 	float vieMax;
 	float vieActuelle;

@@ -12,9 +12,10 @@ public:
 	//SHAPE IS CLONED BY BOX2d
 	//Bullet():Body(&new b2World(b2Vec2_zero)) { 	};
 	Bullet(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, float damage,
-		Character* owner,bool centerOnEnnemy,bool towardEnnemy,std::shared_ptr<b2Shape> shape, std::chrono::high_resolution_clock::duration milliseconds)
+		Character* owner,bool centerOnEnnemy,bool towardEnnemy,std::shared_ptr<b2Shape> shape, std::chrono::milliseconds milliseconds)
 		:Body(world, texture, myBodyDef,fixtureDef, shape), owner(owner), damage(damage)
 		, centerOnEnnemy(centerOnEnnemy), towardEnnemy(towardEnnemy), elapsed(milliseconds){
+		fixtureDef.isSensor = true;
 	
 	};
 	Bullet() = delete;
@@ -34,7 +35,7 @@ public:
 			owner, centerOnEnnemy, towardEnnemy,shape, elapsed);
 	};
 	virtual std::unique_ptr<Body> clone(Reflection& symetry);
-	std::chrono::high_resolution_clock::duration& getElapsed() { return elapsed; };
+	std::chrono::milliseconds& getElapsed() { return elapsed; };
 	void setOwner(Character *ownere) { owner = ownere; };
 	//std::map<Bullet, Reflection> & getBulletReflection() { return bulletReflection; };
 	
@@ -45,6 +46,6 @@ private:
 	bool centerOnEnnemy;
 	bool towardEnnemy;
 //	int numeroReflection; // c'est egalement le numero de l'indice du boulet
-	std::chrono::high_resolution_clock::duration elapsed;//temps nécessaire pour passer au suivant.
+	std::chrono::milliseconds elapsed;//temps nécessaire pour passer au suivant.
 };
 

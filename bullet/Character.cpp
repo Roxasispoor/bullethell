@@ -37,9 +37,12 @@ void Character::updatePhysics(std::chrono::duration<double> elapsed)
 
 void Character::shoot()
 {
-	if (patterns.size() > 0)
+	//std::cout << "Activated" << patterns[chosenPattern].getIsActivated() << "\n";
+	 if (patterns.size() > 0 && !patterns[chosenPattern].getIsActivated() &&
+		 patterns[chosenPattern].getTimer() < std::chrono::system_clock::now())
 	{
-		patterns[chosenPattern].setTimer(std::chrono::high_resolution_clock::now());
+
+		patterns[chosenPattern].setTimerNow();
 		patterns[chosenPattern].activate(false);
 	}
 }
@@ -58,5 +61,15 @@ void Character::move()
 	toGo.Normalize();
 	b2body->SetLinearVelocity(b2Vec2(toGo.x*speedFrame*multiplierMove , toGo.y*speedFrame*multiplierMove));
 	
+}
+
+void Character::draw(sf::RenderWindow & window)
+{
+	Body::draw(window);
+	for (auto &x : patterns)
+	{
+		
+		x.draw(window);
+	}
 }
 

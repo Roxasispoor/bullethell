@@ -36,15 +36,19 @@ public:
 	{
 		return std::make_unique<Pattern>(*world, textureActuelle, myBodyDef, myFixtureDef,shape);
 	};
-	void setTimer(std::chrono::high_resolution_clock::time_point timerino) { timer = timerino; };
+	//void setTimer(std::chrono::high_resolution_clock::time_point timerino) { timer = timerino; };
 	/*Pattern(Pattern& const pattern) :Pattern(*pattern.world, pattern.textureActuelle, pattern.myBodyDef, pattern.myFixtureDef){	
 	
 	}*/
+	std::chrono::system_clock::time_point& getTimer() { return timer; };
+	void setTimerNow() { timer = std::chrono::system_clock::now(); };
+	bool getIsActivated() { return isActivated; };
+	virtual void draw(sf::RenderWindow& window);
 private:
 
 	std::vector<Bullet> bullets; //ces bullets ont une fixture des et une body def mais pas d'existence physique
 	std::vector<std::shared_ptr<Reflection>> reflections;
-	std::chrono::high_resolution_clock::time_point timer;
+	std::chrono::system_clock::time_point timer;
 	Character *owner;
 	int bulletIndice = 0;
 	bool isRepeating = false;

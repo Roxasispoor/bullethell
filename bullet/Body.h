@@ -22,7 +22,7 @@ public:
 
 		//on prépare le référencement a this
 	};
-	void draw(sf::RenderWindow& window)
+	virtual void draw(sf::RenderWindow& window)
 	{
 		window.draw(sprite);
 		if (drawHitBox)
@@ -39,9 +39,10 @@ public:
 	void updateVisuel();
 	void createPhysical()
 	{
+		myFixtureDef.isSensor = true;
 		b2body=world->CreateBody(&myBodyDef);
 		fixture=b2body->CreateFixture(&myFixtureDef);
-		hitbox.setRadius(fixture->GetShape()->m_radius);
+		hitbox.setRadius(myFixtureDef.shape->m_radius);
 		hitbox.setOrigin(sf::Vector2f(hitbox.getRadius(), hitbox.getRadius()));
 		hitbox.setFillColor(sf::Color::Red);
 	};
@@ -66,7 +67,6 @@ public:
 	//b2Body* getB2Body() { return b2body; }
 	//b2World* getWorld() { return world; };
 	//sf::Texture* getTexture() { return world; };
-
 	
 	
 	
