@@ -20,8 +20,10 @@ public:
 	};
 
 	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
+	virtual void preContact(Bullet* bullet);
 	virtual void postContact(Body* other);// Implementation patron multi dispatcher
-	//virtual ~Character();
+	virtual void startCollision(Bullet* other);
+										  //virtual ~Character();
 	virtual void updatePhysics(std::chrono::duration<double> elapsed);
 	virtual void shoot();//crache un pattern
 	void bright();

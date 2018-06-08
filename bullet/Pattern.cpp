@@ -10,14 +10,20 @@ void Pattern::deleteAtEndStep()
 	{
 		vect.erase(
 			std::remove_if(vect.begin(), vect.end(),
-				[](const Bullet & o) { return o.getToDelete(); }),
+				[](Bullet & o) { if (o.getB2Body()->GetPosition().x < 0 || o.getB2Body()->GetPosition().y < 0
+					|| o.getB2Body()->GetPosition().x>1980 || o.getB2Body()->GetPosition().y>1080)
+		{
+			o.setToDelete(true);
+		}
+			if (o.getToDelete()) { o.getWorld()->DestroyBody(o.getB2Body());}
+				return  o.getToDelete(); }),
 			vect.end());
 	}
 	//On supprime les bullets dans leurs vector, puis le vector si il est vide
-	currentBullets.erase(
+	/*currentBullets.erase(
 		std::remove_if(currentBullets.begin(), currentBullets.end(),
 			[](const std::vector<Bullet> & o) {return o.size() == 0; }), currentBullets.end());
-	
+	*/
 }
 
 void Pattern::draw(sf::RenderWindow & window)
@@ -132,7 +138,8 @@ void Pattern::createShoot()
 	
 		//+= derivedPointer->getElapsed();
 		timer += newBullet.getElapsed();
-		
+		newBullet.setOwner(owner);
+
 		currentBullets[bulletIndice].push_back(newBullet); // O push back APRES l'avoir rendu physique 
 		currentBullets[bulletIndice][currentBullets[bulletIndice].size() - 1].createPhysical();//On rend le bullet physique
 	 //		currentBullets[bulletIndice][currentBullets[bulletIndice].size() - 1].updateUserData();
@@ -185,4 +192,5 @@ void Pattern::updatePhysics()
 	{
 		createShoot();
 	}
+	
 }

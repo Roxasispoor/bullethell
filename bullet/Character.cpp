@@ -6,9 +6,29 @@ void Character::preContact(Body * other)
 	other->preContact(this);
 }
 
+void Character::preContact(Bullet * bullet)
+{
+		startCollision(bullet);
+		bullet->startCollision(this);
+	
+}
+
 void Character::postContact(Body * other)
 {
-	other->postContact(this);
+//	other->postContact(this);
+}
+
+void Character::startCollision(Bullet * other)
+{
+	if (other->getOwner() != this)
+	{
+		vieActuelle -= other->getDamage();
+		if (vieActuelle <= 0)
+		{
+			onDeath();
+		}
+		
+	}
 }
 
 /// <summary>

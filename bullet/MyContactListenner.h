@@ -12,7 +12,7 @@ class MyContactListener : public b2ContactListener
 		if (bodyUserDataA && bodyUserDataB &&bodyUserDataA!=bodyUserDataB)
 		{
 			Body * userBodyA= static_cast<Body*>(bodyUserDataA);
-Body * userBodyB= static_cast<Body*>(bodyUserDataB);
+			Body * userBodyB= static_cast<Body*>(bodyUserDataB);
 			userBodyA->preContact(userBodyB);//comme c'est un pointeur on devrait renvoyer le bon type?
 
 		}

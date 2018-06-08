@@ -7,6 +7,14 @@ void Body::preContact(Body * other)
 	other->preContact(this);
 }
 
+void Body::preContact(Character * other)
+{
+}
+
+void Body::preContact(Bullet * other)
+{
+}
+
 void Body::postContact(Body * other)
 {
 	other->postContact(this);

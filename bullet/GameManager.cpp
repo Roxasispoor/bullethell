@@ -58,7 +58,13 @@ void GameManager::mainLoop()
 		}
 
 		window.clear(sf::Color::Black);
-		
+		for (auto &joueur : joueurs)
+		{
+			for (auto &pattern : joueur.getPatterns())
+			{
+				pattern.deleteAtEndStep();
+			}
+		}
 		render(lag/durationFrame);
 	}
 }

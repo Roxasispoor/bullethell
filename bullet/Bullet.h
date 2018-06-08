@@ -6,6 +6,7 @@
 #include "Reflection.h"
 
 class Character;
+class Bullet;
 class Bullet :public Body
 {
 public:
@@ -24,10 +25,16 @@ public:
 //	Bullet(const Bullet & truc) = delete;
 
 	~Bullet();
-	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
+	virtual void preContact(Body* other) override;// Implementation patron multi dispatcher celui-ci 
+	virtual void preContact(Character* other);
+	virtual void preContact(Bullet* other) override;
+
+
 	virtual void postContact(Body* other);// Implementation patron multi dispatcher
+	
 	virtual void startCollision(Character* other);
 	virtual void endCollision(Character* other);
+	
 	bool getToDelete() const { return toDelete; };
 
 	virtual std::unique_ptr<Body> clone()
@@ -42,8 +49,10 @@ public:
 	//std::map<Bullet, Reflection> & getBulletReflection() { return bulletReflection; };
 	virtual void updateUserData() {
 		myBodyDef.userData = this;
-
 	}
+	void setToDelete(bool toD) { toDelete = toD; };
+	Character* getOwner() {	return owner;};
+	float getDamage() { return damage; };
 private:
 	float damage;
 	Character* owner;

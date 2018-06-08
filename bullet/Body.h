@@ -6,6 +6,8 @@
 /// <summary>
 /// Possède un corps physique 
 /// </summary>
+class Character;
+class Bullet;
 class Body
 {
 public:
@@ -43,6 +45,8 @@ public:
 
 	virtual void updateUserData() { myBodyDef.userData = this; }
 	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
+	virtual void preContact(Character* other);
+	virtual void preContact(Bullet* other);
 	virtual void postContact(Body* other);// Implementation patron multi dispatcher
 	virtual void startCollision(Body* other);
 	virtual void endCollision(Body* other);
@@ -86,7 +90,7 @@ public:
 	//void setShape(b2PolygonShape& shapey) { shape=shapey ; };
 	
 	//b2Body* getB2Body() { return b2body; }
-	//b2World* getWorld() { return world; };
+	b2World* getWorld() { return world; };
 	//sf::Texture* getTexture() { return world; };
 	
 	

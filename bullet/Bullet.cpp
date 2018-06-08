@@ -5,10 +5,21 @@ void Bullet::preContact(Body * other)
 {
 	other->preContact(this);
 }
+void Bullet::preContact(Character* other)
+{
+	startCollision(other);
+	other->startCollision(this);
+}
 
+void Bullet::preContact(Bullet * other)
+{//do nothin'
+}
+
+//On s'en occupera quand les lapins auront des becs
+//Edit: les lièvres ne comptent pas.
 void Bullet::postContact(Body * other)
 {
-	other->postContact(this);
+//	other->postContact(this);
 }
 
 /// <summary>
