@@ -4,7 +4,7 @@
 <Pattern departX="5" departY="-5" angle="0" texture="spawner">
 <Reflection>
 <!--<SymetrieAxiale departX="60" departY="600" directionX="10" directionY="10" centeredOnEnnemy="false" applyOnForce="false"/> -->
-<Rotation departX="500" departY="500" directionX="0" directionY="1" numberRepeat="4" angle="0.05" centeredOnEnnemy="true" applyOnForce="true"/> <!-- centré de base autour du pattern -->
+<Rotation departX="10" departY="10" directionX="0" directionY="1" numberRepeat="4" angle="0.05" centeredOnEnnemy="true" applyOnForce="true" isAbsolute="false"/> <!-- centré de base autour du pattern -->
 </Reflection>
 <Bullets> <!-- On initialise le body de pattern par rapport au personnage; Vitesse normalisee avec le nombre de frame, ne pas s'en faire-->
 <Bullet departX="10" departY="10" speed="0.1" angle="20" towardEnnemy="false"  centeredOnEnnemy="false" shape="Circle" radius="5" texture="bullet" damage="10" temps="1000"/> 

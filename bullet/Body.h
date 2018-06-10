@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Box2D/Box2D.h"
+#include <string>
 #include <SFML/Graphics.hpp>
 #include <vector>
 /// <summary>
@@ -43,8 +44,7 @@ public:
 		}
 	}
 
-	virtual void updateUserData() { myBodyDef.userData = this; }
-	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
+		virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
 	virtual void preContact(Character* other);
 	virtual void preContact(Bullet* other);
 	virtual void postContact(Body* other);// Implementation patron multi dispatcher
@@ -52,11 +52,88 @@ public:
 	virtual void endCollision(Body* other);
 	virtual std::unique_ptr<Body> clone() = 0;
 	void updateVisuel();
+
+
+	Body(Body && other) :
+		shape(std::move(other.shape)), fixture(std::move(other.fixture)),
+		textureActuelle(std::move(other.textureActuelle)), myBodyDef(std::move(other.myBodyDef)),
+		myFixtureDef(std::move(other.myFixtureDef)), b2body(std::move(other.b2body)), world(std::move(other.world)),
+		hitbox(std::move(other.hitbox)), drawHitBox(std::move(other.drawHitBox)), screenWidth(std::move(other.screenWidth)),
+		sprite(std::move(other.sprite)), spriteWidth(std::move(other.spriteWidth)), spriteHeight(std::move(other.spriteHeight)),
+		currentstate(std::move(other.currentstate)), hauteurInSprite(std::move(other.hauteurInSprite))
+	{
+		myBodyDef.userData = this;
+		if (b2body)
+		{
+			b2body->SetUserData(this);
+		}
+	};
+
+	
+	Body& operator=(Body&& other)
+	{
+	
+		if (this != &other)
+		{
+			*this = std::move(other);
+			myBodyDef.userData = this;
+			if (b2body)
+			{
+				b2body->SetUserData(this);
+			}
+
+		}
+		return *this;
+	}
+
+//	Body& operator=(Bullet& other);
+
+	Body& operator=(Body& other)
+	{
+		shape = other.shape;
+		fixture = other.fixture;
+		textureActuelle = other.textureActuelle;
+		myBodyDef = other.myBodyDef;
+		myFixtureDef = other.myFixtureDef;
+		b2body = other.b2body;
+		world = other.world;
+		hitbox=other.hitbox;
+		drawHitBox = other.drawHitBox;
+		screenWidth = other.screenWidth;
+		sprite=other.sprite;
+		spriteWidth = other.spriteWidth;
+		spriteHeight = other.spriteHeight;
+		currentstate = other.currentstate;
+		hauteurInSprite = other.hauteurInSprite;
+
+		myBodyDef.userData = this;
+		if (b2body)
+		{
+			b2body->SetUserData(this);
+		}
+
+	};
+
+
+	Body(const Body& other):shape(other.shape), fixture(other.fixture),
+		textureActuelle(other.textureActuelle), myBodyDef(other.myBodyDef),
+		myFixtureDef(other.myFixtureDef), b2body(other.b2body), world(other.world),
+		hitbox(other.hitbox), drawHitBox(other.drawHitBox), screenWidth(other.screenWidth),
+		sprite(other.sprite), spriteWidth(other.spriteWidth), spriteHeight(other.spriteHeight),
+		currentstate(other.currentstate), hauteurInSprite(other.hauteurInSprite)
+	{
+		myBodyDef.userData = this;
+		if (b2body)
+		{
+			b2body->SetUserData(this);
+		}
+	};
+
+
+
 	void createPhysical()
 	{
 		//myFixtureDef.isSensor = true;
-	//	myBodyDef.userData = this;
-		//myFixtureDef.userData = this;
 		b2body=world->CreateBody(&myBodyDef);
 		fixture=b2body->CreateFixture(&myFixtureDef);
 		if (myFixtureDef.shape->GetType() == b2Shape::e_circle)
@@ -72,13 +149,6 @@ public:
 		b2body->SetUserData(this);
 	};
 	void setTextureActuelle(sf::Texture* texture) { textureActuelle = texture; };
-	~Body()
-	{
-		//if (b2body != nullptr)
-		//{
-//			world->DestroyBody(b2body); //On détruit le body dans le world
-		//}
-	}
 	sf::Sprite& getSprite() { return sprite; };
 	b2Body* getB2Body() { return b2body; }
 	b2BodyDef& getBodyDef() {
@@ -93,17 +163,19 @@ public:
 	b2World* getWorld() { return world; };
 	//sf::Texture* getTexture() { return world; };
 	
-	
+	~Body()
+	{
+	};
 	
 protected:
 
 	//b2CircleShape shape;
 	std::shared_ptr<b2Shape> shape;
-	b2Fixture* fixture;
+	b2Fixture* fixture=nullptr;
 	sf::Texture* textureActuelle;
 	b2BodyDef myBodyDef;
 	b2FixtureDef myFixtureDef;
-	b2Body * b2body;
+	b2Body * b2body=nullptr;
 	b2World *world;
 	sf::CircleShape hitbox;
 	bool drawHitBox = true;

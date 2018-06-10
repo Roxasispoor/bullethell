@@ -17,14 +17,22 @@ public:
 		:Body(world, texture, myBodyDef,fixtureDef, shape), owner(owner), damage(damage)
 		, centerOnEnnemy(centerOnEnnemy), towardEnnemy(towardEnnemy), elapsed(milliseconds){
 		
-		this->myBodyDef.userData = this;
-		//myFixtureDef.userData = this;
-	
+		
 	};
 	Bullet() = delete;
 //	Bullet(const Bullet & truc) = delete;
+	Bullet &operator=(Bullet other)
+	{
+		*this = other;
+		myBodyDef.userData = this;
+		if (b2body)
+		{
+			b2body->SetUserData(this);
+		}
 
-	~Bullet();
+		return *this;
+	}
+	
 	virtual void preContact(Body* other) override;// Implementation patron multi dispatcher celui-ci 
 	virtual void preContact(Character* other);
 	virtual void preContact(Bullet* other) override;
@@ -47,12 +55,13 @@ public:
 	std::chrono::milliseconds& getElapsed() { return elapsed; };
 	void setOwner(Character *ownere) { owner = ownere; };
 	//std::map<Bullet, Reflection> & getBulletReflection() { return bulletReflection; };
-	virtual void updateUserData() {
-		myBodyDef.userData = this;
-	}
+
 	void setToDelete(bool toD) { toDelete = toD; };
 	Character* getOwner() {	return owner;};
 	float getDamage() { return damage; };
+	void getSureNoBody() { b2body = nullptr;
+	fixture = nullptr;
+	}
 private:
 	float damage;
 	Character* owner;

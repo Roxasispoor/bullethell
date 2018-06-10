@@ -6,6 +6,7 @@
 
 void Pattern::deleteAtEndStep()
 {
+	/*
 	for(auto &vect:currentBullets)
 	{
 		vect.erase(
@@ -18,7 +19,7 @@ void Pattern::deleteAtEndStep()
 			if (o.getToDelete()) { o.getWorld()->DestroyBody(o.getB2Body());}
 				return  o.getToDelete(); }),
 			vect.end());
-	}
+	}*/
 	//On supprime les bullets dans leurs vector, puis le vector si il est vide
 	/*currentBullets.erase(
 		std::remove_if(currentBullets.begin(), currentBullets.end(),
@@ -53,7 +54,8 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 			auto s=std::make_shared<AxialSymmetry>
 				(nod.attribute("applyOnForce").as_bool(), nod.attribute("centeredOnEnnemy").as_bool(),
 					b2Vec2(nod.attribute("departX").as_int(), nod.attribute("departY").as_int()),
-					b2Vec2(nod.attribute("directionX").as_int(), nod.attribute("directionY").as_int()));
+					b2Vec2(nod.attribute("directionX").as_int(),
+						nod.attribute("directionY").as_int()), nod.attribute("isAbsolute").as_bool());
 					reflections.push_back(s);
 		}
 		else if (name == "Rotation")
@@ -64,7 +66,7 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 				(nod.attribute("applyOnForce").as_bool(), nod.attribute("centeredOnEnnemy").as_bool(),
 					nod.attribute("numberRepeat").as_int(),
 					b2Vec2(nod.attribute("departX").as_int(), nod.attribute("departY").as_int()),
-					nod.attribute("angle").as_float()
+					nod.attribute("angle").as_float(), nod.attribute("isAbsolute").as_bool()
 					);
 			reflections.push_back(s);
 		}
@@ -93,7 +95,8 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 				fixture.shape = shape.get();
 				
 				bullets.push_back(Bullet(*world, &textureMap[nod.attribute("texture").as_string()], def, fixture, nod.attribute("damage").as_float(), nullptr,
-					nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape, ms1));
+					nod.attribute("centerOnEnnemy").as_bool(), nod.attribute("towardEnnemy").as_bool(),shape, 
+					ms1));
 			}
 				if (attribute == "Rectangle")
 				{
@@ -126,9 +129,9 @@ void Pattern::createShoot()
 			derivedPointer(static_cast<Bullet*>(bullets[bulletIndice].clone().release()));
 		*/
 		Bullet newBullet(bullets[(bulletIndice+1)%bullets.size()]);
-		//newBullet.getBodyDef().userData = &newBullet; //obligatoire pour le double dispatch
-
-		newBullet.getBodyDef().position = owner->getB2Body()->GetPosition();// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
+		
+		newBullet.getBodyDef().position += position ;// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
+		newBullet.getBodyDef().angle += angle;// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
 		//TODO modifier pour prendre le pattern
 		
 		currentBullets.push_back(std::vector<Bullet>());
@@ -140,30 +143,73 @@ void Pattern::createShoot()
 		timer += newBullet.getElapsed();
 		newBullet.setOwner(owner);
 
-		currentBullets[bulletIndice].push_back(newBullet); // O push back APRES l'avoir rendu physique 
+		currentBullets[bulletIndice].emplace_back(newBullet); // 
 		currentBullets[bulletIndice][currentBullets[bulletIndice].size() - 1].createPhysical();//On rend le bullet physique
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	 //		currentBullets[bulletIndice][currentBullets[bulletIndice].size() - 1].updateUserData();
 		//currentBullets.push_back(std::move(derivedPointer)); //On move
-		Bullet toCopy = std::move(newBullet);
-		/*for (auto &reflection : reflections)
+	
+		
+		for (auto &reflection : reflections)
 		{
+			//On set la bonne position de la reflexion
+			if (reflection->getIsAbsolute())
+			{
+
+			}
+			else if (reflection->getCenteredOnEnnemy())
+			{
+			}
+			else//centré sur nous
+			{
+
+			}
+
+
+
 			int aRecopier = currentBullets[bulletIndice].size(); //les symetries scale entre elles
 			for (int j=0;j< aRecopier;j++)
 			{
 				for (int i = 0; i < reflection->getnumberCopies(); i++)
 				{
-					Bullet currentSymetrised(currentBullets[bulletIndice][j]);
-				 	reflection->applyReflection(currentSymetrised.getBodyDef());
-					currentSymetrised.getBodyDef().userData = &currentSymetrised; //obligatoire pour le double dispatch
 
-					currentSymetrised.createPhysical();
-					currentBullets[bulletIndice].push_back(currentSymetrised);
-					currentBullets[bulletIndice][currentBullets[bulletIndice].size() - 1].updateUserData();
+					Bullet currentSymetrised(currentBullets[bulletIndice][j]);
+					// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
+					currentSymetrised.getBodyDef().position += position;// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
+					currentSymetrised.getBodyDef().angle += angle;
+					currentSymetrised.setOwner(owner);
+					
+					
+				 	
+					
+					reflection->applyReflection(currentSymetrised.getBodyDef());
+					currentSymetrised.getSureNoBody();
+					currentBullets[bulletIndice].emplace_back(currentSymetrised);
+					
+					
+					currentBullets[bulletIndice][currentBullets[bulletIndice].size() - 1].createPhysical();
+	
+					//std::cout << currentSymetrised.getB2Body();
 				}
 				
 			}
-		}*/
+		}
 	//on ajoute le temps et on update indice
+	
 		bulletIndice++;
 		
 		//On retourne a zero si on repète, on s'arrête sinon
@@ -187,6 +233,8 @@ void Pattern::createShoot()
 
 void Pattern::updatePhysics()
 {
+	position=myBodyDef.position + owner->getB2Body()->GetPosition();
+	angle= myBodyDef.angle + owner->getB2Body()->GetAngle();
 	//Si on est activé on shoot ce qu'il faut
 	if (isActivated)
 	{

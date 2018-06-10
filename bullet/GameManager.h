@@ -17,6 +17,7 @@ public:
 	GameManager() :gravity(0, 0), world(gravity),textureMap(),
 		window(sf::VideoMode(1920, 1080), "Bullet heaven", sf::Style::Fullscreen) {
 		world.SetContactListener(&listenner);
+		listenner.setGameManager(this);
 		//world.SetDebugDraw(
 			//world.SetDebugDraw();
 		for (auto x : aliasFichierNames) //On remplit les textures et on les mets a jour
@@ -34,15 +35,17 @@ public:
 		b2BodyDef bodyDef;
 		bodyDef.type = b2_dynamicBody; //this will be a dynamic body
 		shapePlayer.m_radius = 5;
+		
 		fixturePlayer.shape = &shapePlayer; //sera copiée, np
 		joueurs.push_back(Player (world, &textureMap["joueur"], bodyDef, 
 			fixturePlayer,std::make_shared<b2CircleShape>(shapePlayer),100.f));
+		joueurs[0].createPhysical();
 
 		joueurs[0].getPatterns().push_back(patternsPossibles[0]);
 		joueurs[0].getPatterns()[0].setOwner(&joueurs[0]);
 		//On donne un pattern au joueur
 		
-		joueurs[0].createPhysical();
+
 
 		pugi::xml_document documentEnnemies;
 		if (!documentEnnemies.load_file("../ennemies.xml"))

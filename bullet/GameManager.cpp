@@ -45,7 +45,7 @@ void GameManager::mainLoop()
 				joueur.updateVisuel();
 				joueur.updatePhysics(elapsed);
 
-				world.Step(1 / FPS, 8, 2);
+				world.Step(1 / FPS, 2, 0);
 				
 				
 				lag -= durationFrame;
@@ -108,10 +108,11 @@ void GameManager::createPatternsFromXml(std::string patternsFile)
 		if ( nom== "Pattern")
 		{
 			Pattern newPattern(world, &textureMap[nod.attribute("texture").as_string()], bodydef, fixdef,shape);
-			newPattern.createPhysical();
+					
 			newPattern.createFromXml(nod,textureMap);
 			patternsPossibles.push_back(newPattern);
-			
+			patternsPossibles[patternsPossibles.size()-1].createPhysical();
+
 		}
 		else
 		{

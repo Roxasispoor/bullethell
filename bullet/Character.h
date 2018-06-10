@@ -27,9 +27,7 @@ public:
 	virtual void updatePhysics(std::chrono::duration<double> elapsed);
 	virtual void shoot();//crache un pattern
 	void bright();
-	virtual void updateUserData() {
-		myBodyDef.userData = this;
-	}
+
 	virtual void onDeath();
 	virtual void move();
 	std::vector<Pattern>& getPatterns() { return patterns; };

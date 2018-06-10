@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Body.h"
+#include "Bullet.h"
 
 
 void Body::preContact(Body * other)

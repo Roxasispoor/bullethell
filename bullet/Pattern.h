@@ -44,9 +44,7 @@ public:
 	void setTimerNow() { timer = std::chrono::system_clock::now(); };
 	bool getIsActivated() { return isActivated; };
 	virtual void draw(sf::RenderWindow& window);
-	virtual void updateUserData() {
-		myBodyDef.userData = this;
-	}
+	
 private:
 
 	std::vector<Bullet> bullets; //ces bullets ont une fixture des et une body def mais pas d'existence physique
@@ -58,6 +56,8 @@ private:
 	//int symetryIndice = 0;
 	std::vector<std::vector<Bullet>> currentBullets; //On évite ainsi le problème de downcast de uniqueptr. AT LEAST ONE MUST BE DIFFERENT FROM 0
 	bool isActivated;
+	b2Vec2 position;
+	float angle;
 	//pugi::xml_node doc;
 };
 

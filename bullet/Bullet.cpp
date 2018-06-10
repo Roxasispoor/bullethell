@@ -47,6 +47,3 @@ std::unique_ptr<Body> Bullet::clone(Reflection& symetry)
 		centerOnEnnemy, towardEnnemy,shape,elapsed);
 }
 
-Bullet::~Bullet()
-{
-}
