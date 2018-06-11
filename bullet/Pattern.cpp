@@ -6,7 +6,7 @@
 
 void Pattern::deleteAtEndStep()
 {
-	/*
+	
 	for(auto &vect:currentBullets)
 	{
 		vect.erase(
@@ -19,7 +19,7 @@ void Pattern::deleteAtEndStep()
 			if (o.getToDelete()) { o.getWorld()->DestroyBody(o.getB2Body());}
 				return  o.getToDelete(); }),
 			vect.end());
-	}*/
+	}
 	//On supprime les bullets dans leurs vector, puis le vector si il est vide
 	/*currentBullets.erase(
 		std::remove_if(currentBullets.begin(), currentBullets.end(),

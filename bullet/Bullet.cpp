@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Bullet.h"
+int Bullet::ID = 0;
 
 void Bullet::preContact(Body * other)
 {

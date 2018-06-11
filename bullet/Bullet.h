@@ -13,9 +13,13 @@ public:
 	//SHAPE IS CLONED BY BOX2d
 	//Bullet():Body(&new b2World(b2Vec2_zero)) { 	};
 	Bullet(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, float damage,
-		Character* owner,bool centerOnEnnemy,bool towardEnnemy,std::shared_ptr<b2Shape> shape, std::chrono::milliseconds milliseconds)
+		Character* owner,bool centerOnEnnemy,bool towardEnnemy,std::shared_ptr<b2Shape> shape,
+		std::chrono::milliseconds milliseconds)
 		:Body(world, texture, myBodyDef,fixtureDef, shape), owner(owner), damage(damage)
-		, centerOnEnnemy(centerOnEnnemy), towardEnnemy(towardEnnemy), elapsed(milliseconds){
+		, centerOnEnnemy(centerOnEnnemy), towardEnnemy(towardEnnemy), elapsed(milliseconds) {
+		currentID = ++ID;
+		
+		//identifiant++;
 		
 		
 	};
@@ -23,7 +27,26 @@ public:
 //	Bullet(const Bullet & truc) = delete;
 	Bullet &operator=(Bullet other)
 	{
-		*this = other;
+		//*this = other; => JE le laisse pour les perles des bugs qui sont longs, chiants a débuggers et non verbeux
+		shape = other.shape;
+		fixture = other.fixture;
+		textureActuelle = other.textureActuelle;
+		myBodyDef = other.myBodyDef;
+		myFixtureDef = other.myFixtureDef;
+		b2body = other.b2body;
+		world = other.world;
+		hitbox = other.hitbox;
+		drawHitBox = other.drawHitBox;
+		screenWidth = other.screenWidth;
+		sprite = other.sprite;
+		spriteWidth = other.spriteWidth;
+		spriteHeight = other.spriteHeight;
+		currentstate = other.currentstate;
+		hauteurInSprite = other.hauteurInSprite;
+		currentID = other.currentID;
+
+	//	currentID = other.currentID;
+
 		myBodyDef.userData = this;
 		if (b2body)
 		{
@@ -68,6 +91,8 @@ private:
 	bool toDelete=0;
 	bool centerOnEnnemy;
 	bool towardEnnemy;
+	static int ID;
+	int currentID;
 //	int numeroReflection; // c'est egalement le numero de l'indice du boulet
 	std::chrono::milliseconds elapsed;//temps nécessaire pour passer au suivant.
 };
