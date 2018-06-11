@@ -1,7 +1,13 @@
 #include "stdafx.h"
 #include "Body.h"
 #include "Bullet.h"
+int Body::ID = 0;
 
+bool operator==(const Body & left, const Body & right)
+{
+
+	return left.getCurrentID() == right.getCurrentID();
+}
 
 void Body::preContact(Body * other)
 {

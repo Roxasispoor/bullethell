@@ -1,7 +1,11 @@
 #include "stdafx.h"
 #include "Bullet.h"
-int Bullet::ID = 0;
 
+bool operator==(const Bullet & left, const Bullet & right)
+{
+
+	return left.getCurrentID() == right.getCurrentID();
+}
 void Bullet::preContact(Body * other)
 {
 	other->preContact(this);

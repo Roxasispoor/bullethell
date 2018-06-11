@@ -13,18 +13,21 @@ void Pattern::deleteAtEndStep()
 			std::remove_if(vect.begin(), vect.end(),
 				[](Bullet & o) { if (o.getB2Body()->GetPosition().x < 0 || o.getB2Body()->GetPosition().y < 0
 					|| o.getB2Body()->GetPosition().x>1980 || o.getB2Body()->GetPosition().y>1080)
-		{
-			o.setToDelete(true);
+		{ o.getWorld()->DestroyBody(o.getB2Body());
+		return  true;
 		}
-			if (o.getToDelete()) { o.getWorld()->DestroyBody(o.getB2Body());}
-				return  o.getToDelete(); }),
+		return false;
+		}),
 			vect.end());
 	}
 	//On supprime les bullets dans leurs vector, puis le vector si il est vide
+
+	//ON supprimerait plutot e modulo du nombre de bullet possibles, mais c'est plus fatiguant
 	/*currentBullets.erase(
 		std::remove_if(currentBullets.begin(), currentBullets.end(),
 			[](const std::vector<Bullet> & o) {return o.size() == 0; }), currentBullets.end());
-	*/
+	
+	bulletIndice = currentBullets.size();*/
 }
 
 void Pattern::draw(sf::RenderWindow & window)

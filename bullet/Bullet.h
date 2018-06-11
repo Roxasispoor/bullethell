@@ -17,7 +17,7 @@ public:
 		std::chrono::milliseconds milliseconds)
 		:Body(world, texture, myBodyDef,fixtureDef, shape), owner(owner), damage(damage)
 		, centerOnEnnemy(centerOnEnnemy), towardEnnemy(towardEnnemy), elapsed(milliseconds) {
-		currentID = ++ID;
+		
 		
 		//identifiant++;
 		
@@ -43,7 +43,7 @@ public:
 		spriteHeight = other.spriteHeight;
 		currentstate = other.currentstate;
 		hauteurInSprite = other.hauteurInSprite;
-		currentID = other.currentID;
+		currentID = ID++;
 
 	//	currentID = other.currentID;
 
@@ -91,8 +91,7 @@ private:
 	bool toDelete=0;
 	bool centerOnEnnemy;
 	bool towardEnnemy;
-	static int ID;
-	int currentID;
+	
 //	int numeroReflection; // c'est egalement le numero de l'indice du boulet
 	std::chrono::milliseconds elapsed;//temps nécessaire pour passer au suivant.
 };

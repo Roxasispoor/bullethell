@@ -14,7 +14,7 @@ class Body
 public:
 
 	Body(b2World &world, sf::Texture* textureActuelle , b2BodyDef myBodyDef,b2FixtureDef fixtureDef, std::shared_ptr<b2Shape> shape):
-		world(&world), textureActuelle(textureActuelle),myBodyDef(myBodyDef),myFixtureDef(fixtureDef),shape(shape){
+		world(&world), textureActuelle(textureActuelle),myBodyDef(myBodyDef),myFixtureDef(fixtureDef),shape(shape),currentID(ID++){
 		b2body = nullptr;
 		//std::make_unique<b2Shape>(shape);
 		
@@ -52,15 +52,18 @@ public:
 	virtual void endCollision(Body* other);
 	virtual std::unique_ptr<Body> clone() = 0;
 	void updateVisuel();
-
-
+	
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Body"/> class.
+	/// </summary>
+	/// <param name="other">The other.</param>
 	Body(Body && other) :
 		shape(std::move(other.shape)), fixture(std::move(other.fixture)),
 		textureActuelle(std::move(other.textureActuelle)), myBodyDef(std::move(other.myBodyDef)),
 		myFixtureDef(std::move(other.myFixtureDef)), b2body(std::move(other.b2body)), world(std::move(other.world)),
 		hitbox(std::move(other.hitbox)), drawHitBox(std::move(other.drawHitBox)), screenWidth(std::move(other.screenWidth)),
 		sprite(std::move(other.sprite)), spriteWidth(std::move(other.spriteWidth)), spriteHeight(std::move(other.spriteHeight)),
-		currentstate(std::move(other.currentstate)), hauteurInSprite(std::move(other.hauteurInSprite))
+		currentstate(std::move(other.currentstate)), hauteurInSprite(std::move(other.hauteurInSprite)),currentID(std::move(other.currentID))
 	{
 		myBodyDef.userData = this;
 		if (b2body)
@@ -122,6 +125,7 @@ public:
 		sprite(other.sprite), spriteWidth(other.spriteWidth), spriteHeight(other.spriteHeight),
 		currentstate(other.currentstate), hauteurInSprite(other.hauteurInSprite)
 	{
+		currentID = ID++;
 		myBodyDef.userData = this;
 		if (b2body)
 		{
@@ -162,7 +166,9 @@ public:
 	//b2Body* getB2Body() { return b2body; }
 	b2World* getWorld() { return world; };
 	//sf::Texture* getTexture() { return world; };
-	
+	const int  getCurrentID() const {
+		return currentID;
+	};
 	~Body()
 	{
 	};
@@ -185,4 +191,6 @@ protected:
 	int spriteHeight = 64;
 	int currentstate = 1;
 	int hauteurInSprite=0;
+	static int ID;
+	int currentID;
 };
