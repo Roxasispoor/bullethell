@@ -3,7 +3,7 @@
 
 void AxialSymmetry::applyReflection(b2BodyDef & body)
 {
-	double length = (body.position - pointDepart).Length();
+	double length = (body.position - decalage).Length();
 	directeur.Normalize();
 	b2Vec2 normal=b2Cross(length, directeur);
 	body.position -= 2 * normal;//On soustrait 2* vecteur

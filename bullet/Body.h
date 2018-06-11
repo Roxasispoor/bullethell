@@ -9,6 +9,7 @@
 /// </summary>
 class Character;
 class Bullet;
+class Player;
 class Body
 {
 public:
@@ -18,6 +19,7 @@ public:
 		b2body = nullptr;
 		//std::make_unique<b2Shape>(shape);
 		
+		myFixtureDef.isSensor = true;
 		sprite.setTexture(*textureActuelle);
 		if (shape->m_type == b2Shape::e_circle)//on mets plutot au centre de la sprite
 		{
@@ -46,6 +48,7 @@ public:
 
 		virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
 	virtual void preContact(Character* other);
+	virtual void preCollision(Player * other);
 	virtual void preContact(Bullet* other);
 	virtual void postContact(Body* other);// Implementation patron multi dispatcher
 	virtual void startCollision(Body* other);
@@ -89,6 +92,7 @@ public:
 		return *this;
 	}
 
+	bool isValid() { return textureActuelle != nullptr; }
 //	Body& operator=(Bullet& other);
 
 	Body& operator=(Body& other)
@@ -114,7 +118,7 @@ public:
 		{
 			b2body->SetUserData(this);
 		}
-
+		return *this;
 	};
 
 

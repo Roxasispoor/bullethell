@@ -11,10 +11,14 @@ bool operator==(const Body & left, const Body & right)
 
 void Body::preContact(Body * other)
 {
-	other->preContact(this);
+	//other->preContact(this);
 }
 
 void Body::preContact(Character * other)
+{
+}
+
+void Body::preCollision(Player * other)
 {
 }
 
@@ -41,6 +45,7 @@ void Body::updateVisuel()
 {
 
 	sprite.setPosition(b2body->GetPosition().x, b2body->GetPosition().y);
+	sprite.setRotation(b2body->GetAngle() * 180 / b2_pi);
 	hitbox.setPosition(b2body->GetPosition().x, b2body->GetPosition().y);
 }
 

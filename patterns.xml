@@ -4,11 +4,11 @@
 <Pattern departX="5" departY="-5" angle="0" texture="spawner">
 <Reflection>
 <!--<SymetrieAxiale departX="60" departY="600" directionX="10" directionY="10" centeredOnEnnemy="false" applyOnForce="false"/> -->
-<Rotation departX="10" departY="10" directionX="0" directionY="1" numberRepeat="4" angle="0.05" centeredOnEnnemy="true" applyOnForce="true" isAbsolute="false"/> <!-- centré de base autour du pattern -->
+<Rotation departX="0" departY="0" directionX="0" directionY="1" numberRepeat="5" angle="0.5" centeredOnEnnemy="true" applyOnForce="true" isAbsolute="false"/> <!-- centré de base autour du pattern -->
 </Reflection>
 <Bullets> <!-- On initialise le body de pattern par rapport au personnage; Vitesse normalisee avec le nombre de frame, ne pas s'en faire-->
-<Bullet departX="10" departY="10" speed="0.1" angle="20" towardEnnemy="false"  centeredOnEnnemy="false" shape="Circle" radius="5" texture="bullet" damage="10" temps="1000"/> 
-<Bullet departX="10" departY="10" speed="0.05" angle="0" towardEnnemy="true"  centeredOnEnnemy="false" shape="Rectangle" height="50" width="100" texture="laser" damage="10" temps="500"/>
-<Bullet departX="0"  departY="10" speed="0.07" angle="0" towardEnnemy="false" centeredOnEnnemy="true" shape="Circle" radius="10" texture="bullet" damage="20" temps="0"/> 
+<Bullet departX="0" departY="0" speed="0.4" angle="20" towardEnnemy="false"  centeredOnEnnemy="false" shape="Circle" radius="5" texture="bullet" damage="10" temps="1000"/> 
+<Bullet departX="0" departY="50" speed="0.5" angle="0" towardEnnemy="true"  centeredOnEnnemy="false" shape="Rectangle" height="50" width="100" texture="laser" damage="10" temps="2000"/>
+<Bullet departX="0"  departY="10" speed="0.2" angle="0" towardEnnemy="false" centeredOnEnnemy="true" shape="Circle" radius="10" texture="bullet" damage="20" temps="0"/> 
 <Bullets>
 </Pattern>

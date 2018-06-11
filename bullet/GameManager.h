@@ -73,6 +73,18 @@ public:
 
 				Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy,shape,nod.attribute("life").as_float());
 //				ennemi.setShape(shape);
+				for (pugi::xml_node nodie = nod.first_child(); nodie; nodie = nodie.next_sibling())
+				{
+					int numPattern = nodie.attribute("value").as_int();
+					if (numPattern < patternsPossibles.size() )
+					{
+						ennemi.getPatterns().push_back(patternsPossibles[numPattern]);
+						ennemi.getPatterns()[ennemi.getPatterns().size()-1].setOwner(&ennemi);
+					}
+
+				}
+
+
 				ennemisPossibles.push_back(std::move(ennemi));
 			}
 			if (forme == "Rectangle")
@@ -86,9 +98,21 @@ public:
 				
 				//ennemi.setShape(shape2);
 				fixtureEnnemy.shape = shape2.get();
-				ennemisPossibles.push_back(ennemi);
-			}
 
+				for (pugi::xml_node nodie = nod.first_child(); nodie; nodie = nodie.next_sibling())
+				{
+					int numPattern = nodie.attribute("value").as_int();
+					if (numPattern < patternsPossibles.size())
+					{
+						ennemi.getPatterns().push_back(patternsPossibles[numPattern]);
+
+					}
+
+				}
+				ennemisPossibles.push_back(std::move(ennemi));
+				ennemisPossibles[ennemisPossibles.size()-1].getPatterns()[ennemi.getPatterns().size() - 1].setOwner(&ennemisPossibles[ennemisPossibles.size() - 1]);
+			}
+			
 		}
 		//joueurs[0].setTextureActuelle(&textureMap["joueur"]);
 		};//on remplira la texture du joueur juste après les avoir load

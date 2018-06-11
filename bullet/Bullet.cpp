@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Bullet.h"
+#include "Player.h"
 
 bool operator==(const Bullet & left, const Bullet & right)
 {

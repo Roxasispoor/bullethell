@@ -12,7 +12,7 @@ void Pattern::deleteAtEndStep()
 		vect.erase(
 			std::remove_if(vect.begin(), vect.end(),
 				[](Bullet & o) { if (o.getB2Body()->GetPosition().x < 0 || o.getB2Body()->GetPosition().y < 0
-					|| o.getB2Body()->GetPosition().x>1980 || o.getB2Body()->GetPosition().y>1080)
+					|| o.getB2Body()->GetPosition().x>1980 || o.getB2Body()->GetPosition().y>1080||o.getToDelete())
 		{ o.getWorld()->DestroyBody(o.getB2Body());
 		return  true;
 		}
@@ -83,7 +83,7 @@ void Pattern::createFromXml(pugi::xml_node patternNode, std::map<std::string, sf
 			b2BodyDef def;
 			def.type = b2_dynamicBody; //this will be a dynamic body
 			def.position.Set(nod.attribute("departX").as_float() , nod.attribute("departY").as_float()); //set the starting position
-			def.angle = nod.attribute("departY").as_float();
+			def.angle = nod.attribute("angle").as_float();
 			def.linearVelocity.x = nod.attribute("speed").as_float()*cos(nod.attribute("angle").as_float())*FPS;//TODO MODIFIER ET FAIRE A L'INIT 
 			def.linearVelocity.y = nod.attribute("speed").as_float()*sin(nod.attribute("angle").as_float())*FPS;//TODO MODIFIER ET FAIRE A L'INIT 
 			b2FixtureDef fixture;
@@ -190,17 +190,20 @@ void Pattern::createShoot()
 				for (int i = 0; i < reflection->getnumberCopies(); i++)
 				{
 
-					Bullet currentSymetrised(currentBullets[bulletIndice][j]);
+					Bullet currentSymetrised(currentBullets[bulletIndice][i]);
 					// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
-					currentSymetrised.getBodyDef().position += position;// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
-					currentSymetrised.getBodyDef().angle += angle;
+					//currentSymetrised.getBodyDef().position += position;// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
+					//currentSymetrised.getBodyDef().angle += angle;
 					currentSymetrised.setOwner(owner);
 					
-					
-				 	
-					
+				//	currentSymetrised.getBodyDef().position = b2body->GetPosition();
+					if (!reflection->getIsAbsolute())
+					{
+						reflection->setPointDepart(owner->getB2Body()->GetPosition());
+					}
+				 		
 					reflection->applyReflection(currentSymetrised.getBodyDef());
-					currentSymetrised.getSureNoBody();
+					//currentSymetrised.getSureNoBody();
 					currentBullets[bulletIndice].emplace_back(currentSymetrised);
 					
 					

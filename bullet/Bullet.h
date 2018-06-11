@@ -28,22 +28,19 @@ public:
 	Bullet &operator=(Bullet other)
 	{
 		//*this = other; => JE le laisse pour les perles des bugs qui sont longs, chiants a débuggers et non verbeux
-		shape = other.shape;
-		fixture = other.fixture;
-		textureActuelle = other.textureActuelle;
-		myBodyDef = other.myBodyDef;
-		myFixtureDef = other.myFixtureDef;
-		b2body = other.b2body;
-		world = other.world;
-		hitbox = other.hitbox;
-		drawHitBox = other.drawHitBox;
-		screenWidth = other.screenWidth;
-		sprite = other.sprite;
-		spriteWidth = other.spriteWidth;
-		spriteHeight = other.spriteHeight;
-		currentstate = other.currentstate;
-		hauteurInSprite = other.hauteurInSprite;
-		currentID = ID++;
+		
+		damage = other.damage;
+		owner = other.owner;
+		toDelete = other.toDelete;
+		centerOnEnnemy = other.centerOnEnnemy;
+		towardEnnemy = other.towardEnnemy;
+
+		//	int numeroReflection; // c'est egalement le numero de l'indice du boulet
+		 elapsed=other.elapsed;
+
+
+		Body::operator=(other);
+		
 
 	//	currentID = other.currentID;
 
@@ -59,6 +56,7 @@ public:
 	virtual void preContact(Body* other) override;// Implementation patron multi dispatcher celui-ci 
 	virtual void preContact(Character* other);
 	virtual void preContact(Bullet* other) override;
+
 
 
 	virtual void postContact(Body* other);// Implementation patron multi dispatcher
@@ -88,7 +86,7 @@ public:
 private:
 	float damage;
 	Character* owner;
-	bool toDelete=0;
+	bool toDelete=false;
 	bool centerOnEnnemy;
 	bool towardEnnemy;
 	

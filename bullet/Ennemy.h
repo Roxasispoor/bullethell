@@ -14,7 +14,14 @@ public:
 
 	};
 	~Ennemy();
-	
+	void input()
+	{
+		
+		commands.push_back(Command(this, &Character::shoot));
+
+		
+	}
+
 	virtual std::unique_ptr<Body> clone()
 	{
 		return std::make_unique<Ennemy>(*world,textureActuelle,myBodyDef, myFixtureDef,shape,vieMax);

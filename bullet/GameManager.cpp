@@ -10,8 +10,20 @@ GameManager::~GameManager()
 
 void GameManager::mainLoop()
 {
+	sf::Music music;
+	if (!music.openFromFile("../Evil Approach.wav"))
+	{
+		std::cout << "music loading failed";
+	}
+	music.setLoop(true);
+	music.play();
 	ennemisEnVie.push_back(ennemisPossibles[0]);//*(static_cast<Ennemy*>(ennemisPossibles[0].clone().get())));
 	ennemisEnVie[0].createPhysical();
+	for (auto &patterns : ennemisEnVie[0].getPatterns())
+	{
+		patterns.setOwner(&ennemisEnVie[0]);
+	}
+	ennemisEnVie[0].getB2Body()->SetAngularVelocity(0.3);
 
 	auto previous = std::chrono::system_clock::now();
 	std::chrono::duration<double> durationFrame(1 / FPS);
@@ -44,28 +56,38 @@ void GameManager::mainLoop()
 
 				joueur.updateVisuel();
 				joueur.updatePhysics(elapsed);
-
-				world.Step(1 / FPS, 2, 0);
 				
 				
 				lag -= durationFrame;
 			}
 			for (auto& ennemy : ennemisEnVie)
 			{
+
+				ennemisEnVie[0].input();
 				ennemy.updatePhysics(elapsed);
 				ennemy.updateVisuel();
 			}
+			world.Step(1 / FPS, 2, 0);
+
+			window.clear(sf::Color::Black);
+			for (auto &joueur : joueurs)
+			{
+				for (auto &pattern : joueur.getPatterns())
+				{
+					pattern.deleteAtEndStep();
+				}
+			}
+			for (auto &ennemi : ennemisEnVie)
+			{
+				for (auto &pattern : ennemi.getPatterns())
+				{
+					pattern.deleteAtEndStep();
+				}
+			}
+			render(lag / durationFrame);
+
 		}
 
-		window.clear(sf::Color::Black);
-		for (auto &joueur : joueurs)
-		{
-			for (auto &pattern : joueur.getPatterns())
-			{
-				pattern.deleteAtEndStep();
-			}
-		}
-		render(lag/durationFrame);
 	}
 }
 

@@ -15,22 +15,26 @@ public:
 		{
 			Body * userBodyA= static_cast<Body*>(bodyUserDataA);
 			Body * userBodyB= static_cast<Body*>(bodyUserDataB);
-			userBodyB->preContact(userBodyA);//comme c'est un pointeur on devrait renvoyer le bon type?
-
+//			a = a;
+//			b = b;
+			if (userBodyA->isValid() && userBodyB->isValid())
+			{
+				userBodyB->preContact(userBodyA);//comme c'est un pointeur on devrait renvoyer le bon type?
+			}
 		}
 		//check if fixture B was a ball
 	};
 
 	void EndContact(b2Contact* contact) {
 
-		void* bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
+		/*void* bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
 		void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
 		if (bodyUserDataA && bodyUserDataB &&bodyUserDataA != bodyUserDataB)
 		{
 			static_cast<Body*>(bodyUserDataA)->postContact(static_cast<Body*>(bodyUserDataB));//comme c'est un pointeur on devrait renvoyer le bon type?
 			static_cast<Body*>(bodyUserDataB)->postContact(static_cast<Body*>(bodyUserDataA));//comme c'est un pointeur on devrait renvoyer le bon type?
 
-		}
+		}*/
 	};
 
 
