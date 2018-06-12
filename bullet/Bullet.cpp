@@ -7,6 +7,30 @@ bool operator==(const Bullet & left, const Bullet & right)
 
 	return left.getCurrentID() == right.getCurrentID();
 }
+Bullet & Bullet::operator=(Bullet other)
+	{
+		//*this = other; => JE le laisse pour les perles des bugs qui sont longs, chiants a débuggers et non verbeux
+
+		damage = other.damage;
+		owner = other.owner;
+		toDelete = other.toDelete;
+		centerOnEnnemy = other.centerOnEnnemy;
+		towardEnnemy = other.towardEnnemy;
+
+		elapsed = other.elapsed;
+
+
+		Body::operator=(other);
+
+		myBodyDef.userData = this;
+		if (b2body)
+		{
+			b2body->SetUserData(this);
+		}
+
+		return *this;
+	}
+
 void Bullet::preContact(Body * other)
 {
 	other->preContact(this);

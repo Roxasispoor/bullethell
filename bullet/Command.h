@@ -1,5 +1,8 @@
 #pragma once
 class Character;
+/// <summary>
+/// Pattern Command permettant de stocker les input du joueur, de l'ia... Utilise un pointeur vers méthode Character
+/// </summary>
 class Command
 {
 	Character *character; 

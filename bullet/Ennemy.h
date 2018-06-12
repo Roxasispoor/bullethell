@@ -4,8 +4,11 @@
 #include "Body.h"
 #include "Character.h"
 class Character;
-
-class Ennemy :	public Character
+/// <summary>
+/// Classe représentant un ennemi
+/// </summary>
+/// <seealso cref="Character" />
+class Ennemy : public Character
 {
 public:
 	
@@ -26,7 +29,5 @@ public:
 	{
 		return std::make_unique<Ennemy>(*world,textureActuelle,myBodyDef, myFixtureDef,shape,vieMax);
 	};
-private:
-//	sf::Music theme;
 };
 

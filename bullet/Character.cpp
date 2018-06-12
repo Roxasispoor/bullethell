@@ -43,8 +43,8 @@ void Character::updatePhysics(std::chrono::duration<double> elapsed)
 		currentstate = (currentstate + 1) % numberState;
 		sprite.setTextureRect(sf::IntRect(currentstate*spriteWidth, hauteurInSprite*spriteHeight, spriteWidth, spriteHeight));
 	}
-
-	while (!commands.empty()) //on fait toutes les commandes
+	//Depile toutes les commandes
+	while (!commands.empty()) 
 	{
 		commands.front().execute();
 		commands.pop_front();
@@ -54,10 +54,12 @@ void Character::updatePhysics(std::chrono::duration<double> elapsed)
 		p.updatePhysics();
 	}
 }
-
+/// <summary>
+/// Activate the pattern.
+/// </summary>
 void Character::shoot()
 {
-	//std::cout << "Activated" << patterns[chosenPattern].getIsActivated() << "\n";
+
 	 if (patterns.size() > 0 && !patterns[chosenPattern].getIsActivated() &&
 		 patterns[chosenPattern].getTimer() < std::chrono::system_clock::now())
 	{
@@ -66,15 +68,40 @@ void Character::shoot()
 		patterns[chosenPattern].activate(false);
 	}
 }
-
+/// <summary>
+/// Brights this instance. TODO
+/// </summary>
 void Character::bright()
 {
 }
-
+/// <summary>
+/// Trigerred on death.
+/// </summary>
 void Character::onDeath()
 {
-}
+	std::cout << "FIN DU JEU";
+	/*sf::Font font;
 
+	// Chargement à partir d'un fichier sur le disque
+	if (!font.loadFromFile("arial.ttf"))
+	{
+		// Erreur...
+	}
+	sf::Text text;
+	text.setFont(font); // font is a sf::Font
+
+						// set the string to display
+	text.setString("Fin du jeu");
+
+	// set the character size
+	text.setCharacterSize(24);
+	*/
+	//exit;
+	
+}
+/// <summary>
+/// Moves this instance.
+/// </summary>
 void Character::move()
 {
 	
@@ -82,7 +109,10 @@ void Character::move()
 	b2body->SetLinearVelocity(b2Vec2(toGo.x*speedFrame*multiplierMove , toGo.y*speedFrame*multiplierMove));
 	
 }
-
+/// <summary>
+/// Draws the specified object on window and call recursively on patterns
+/// </summary>
+/// <param name="window">The window.</param>
 void Character::draw(sf::RenderWindow & window)
 {
 	Body::draw(window);

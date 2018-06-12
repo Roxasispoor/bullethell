@@ -1,19 +1,71 @@
-﻿  GameManager.cpp
-e:\cours\jin\c++\lool\bullet\bullet\body.h(26): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\cours\jin\c++\lool\bullet\bullet\body.h(26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\cours\jin\c++\lool\bullet\bullet\body.h(31): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-e:\cours\jin\c++\lool\bullet\bullet\body.h(32): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-e:\cours\jin\c++\lool\bullet\bullet\gamemanager.h(79): warning C4018: '<': signed/unsigned mismatch
-e:\cours\jin\c++\lool\bullet\bullet\gamemanager.h(106): warning C4018: '<': signed/unsigned mismatch
+﻿  Body.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Bullet.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Character.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Command.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\command.cpp(13): warning C4101: 'e': unreferenced local variable
+  Ennemy.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  GameManager.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\gamemanager.cpp(10): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\gamemanager.cpp(74): warning C4018: '<': signed/unsigned mismatch
+e:\cours\jin\c++\lool\bullet\bullet\gamemanager.cpp(100): warning C4018: '<': signed/unsigned mismatch
+  MyContactListenner.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Pattern.cpp
-e:\cours\jin\c++\lool\bullet\bullet\body.h(26): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\cours\jin\c++\lool\bullet\bullet\body.h(26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\cours\jin\c++\lool\bullet\bullet\body.h(31): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-e:\cours\jin\c++\lool\bullet\bullet\body.h(32): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 e:\cours\jin\c++\lool\bullet\bullet\pattern.cpp(59): warning C4244: 'argument': conversion from 'int' to 'float32', possible loss of data
 e:\cours\jin\c++\lool\bullet\bullet\pattern.cpp(61): warning C4244: 'argument': conversion from 'int' to 'float32', possible loss of data
 e:\cours\jin\c++\lool\bullet\bullet\pattern.cpp(60): warning C4244: 'argument': conversion from 'int' to 'float32', possible loss of data
 e:\cours\jin\c++\lool\bullet\bullet\pattern.cpp(71): warning C4244: 'argument': conversion from 'int' to 'float32', possible loss of data
+  Player.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  monMain.cpp
+e:\cours\jin\c++\lool\bullet\bullet\body.h(35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\body.h(41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cours\jin\c++\lool\bullet\bullet\character.h(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Generating Code...
 MyContactListenner.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
   bullet.vcxproj -> E:\cours\JIN\c++\lool\bullet\Debug\bullet.lib

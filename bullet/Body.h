@@ -10,20 +10,29 @@
 class Character;
 class Bullet;
 class Player;
+/// <summary>
+/// Classe de base de toute objet qui possède une réalité physique
+/// </summary>
 class Body
 {
 public:
-
-	Body(b2World &world, sf::Texture* textureActuelle , b2BodyDef myBodyDef,b2FixtureDef fixtureDef, std::shared_ptr<b2Shape> shape):
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Body"/> class. N'a pas encore d'existence physique
+	/// </summary>
+	/// <param name="world">The world.</param>
+	/// <param name="textureActuelle">The texture actuelle.</param>
+	/// <param name="myBodyDef">My body definition.</param>
+	/// <param name="fixtureDef">The fixture definition.</param>
+	/// <param name="shape">The shape.</param>
+	Body(b2World &world, sf::Texture* textureActuelle, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, std::shared_ptr<b2Shape> shape) :
 		world(&world), textureActuelle(textureActuelle),myBodyDef(myBodyDef),myFixtureDef(fixtureDef),shape(shape),currentID(ID++){
 		b2body = nullptr;
-		//std::make_unique<b2Shape>(shape);
-		
 		myFixtureDef.isSensor = true;
 		sprite.setTexture(*textureActuelle);
+	
 		if (shape->m_type == b2Shape::e_circle)//on mets plutot au centre de la sprite
 		{
-			sprite.setOrigin(spriteWidth / 2, spriteHeight * 0.7);
+			sprite.setOrigin(spriteWidth / 2, spriteHeight /2);
 		}
 		else if(shape->m_type == b2Shape::e_polygon)
 		{
@@ -31,12 +40,18 @@ public:
 			spriteHeight = abs(rectShape->GetVertex(0).y*2);
 			spriteWidth = abs(rectShape->GetVertex(0).x*2);
 			sprite.setOrigin(-rectShape->GetVertex(0).x, -rectShape->GetVertex(0).y);
+			sprite.setScale(spriteWidth / float(textureActuelle->getSize().x), spriteHeight / float(textureActuelle->getSize().y));
+		//	sprite.setTextureRect(sf::IntRect(currentstate*spriteWidth, 0, spriteWidth, spriteHeight));
 		}
-		sprite.setTextureRect(sf::IntRect(currentstate*spriteWidth, 0, spriteWidth, spriteHeight));
+		
 		
 
-		//on prépare le référencement a this
-	};
+
+	};	
+	/// <summary>
+	/// Draws the specified object on window.
+	/// </summary>
+	/// <param name="window">The window.</param>
 	virtual void draw(sf::RenderWindow& window)
 	{
 		window.draw(sprite);
@@ -46,7 +61,7 @@ public:
 		}
 	}
 
-		virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
+	virtual void preContact(Body* other);// Implementation patron multi dispatcher celui-ci 
 	virtual void preContact(Character* other);
 	virtual void preCollision(Player * other);
 	virtual void preContact(Bullet* other);
@@ -74,8 +89,12 @@ public:
 			b2body->SetUserData(this);
 		}
 	};
-
 	
+	/// <summary>
+	/// Operator=s the specified other. Necessary for push backs due to userdata
+	/// </summary>
+	/// <param name="other">The other.</param>
+	/// <returns></returns>
 	Body& operator=(Body&& other)
 	{
 	
@@ -90,11 +109,20 @@ public:
 
 		}
 		return *this;
-	}
-
+	}	
+	/// <summary>
+	/// Determines whether this instance is valid. Maraboutage.
+	/// </summary>
+	/// <returns>
+	///   <c>true</c> if this instance is valid; otherwise, <c>false</c>.
+	/// </returns>
 	bool isValid() { return textureActuelle != nullptr; }
-//	Body& operator=(Bullet& other);
-
+	
+	/// <summary>
+	/// Operator=s the specified other. Rule of 5
+	/// </summary>
+	/// <param name="other">The other.</param>
+	/// <returns></returns>
 	Body& operator=(Body& other)
 	{
 		shape = other.shape;
@@ -120,42 +148,19 @@ public:
 		}
 		return *this;
 	};
+	
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Body"/> class.
+	/// </summary>
+	/// <param name="other">The other.</param>
+	Body(const Body& other);
 
 
-	Body(const Body& other):shape(other.shape), fixture(other.fixture),
-		textureActuelle(other.textureActuelle), myBodyDef(other.myBodyDef),
-		myFixtureDef(other.myFixtureDef), b2body(other.b2body), world(other.world),
-		hitbox(other.hitbox), drawHitBox(other.drawHitBox), screenWidth(other.screenWidth),
-		sprite(other.sprite), spriteWidth(other.spriteWidth), spriteHeight(other.spriteHeight),
-		currentstate(other.currentstate), hauteurInSprite(other.hauteurInSprite)
-	{
-		currentID = ID++;
-		myBodyDef.userData = this;
-		if (b2body)
-		{
-			b2body->SetUserData(this);
-		}
-	};
+	/// <summary>
+	/// Creates the physical representation of the body, both in box2D and sprites wise
+	/// </summary>
+	void createPhysical();
 
-
-
-	void createPhysical()
-	{
-		//myFixtureDef.isSensor = true;
-		b2body=world->CreateBody(&myBodyDef);
-		fixture=b2body->CreateFixture(&myFixtureDef);
-		if (myFixtureDef.shape->GetType() == b2Shape::e_circle)
-		{
-			hitbox.setRadius(myFixtureDef.shape->m_radius);
-			hitbox.setOrigin(sf::Vector2f(hitbox.getRadius(), hitbox.getRadius()));
-			hitbox.setFillColor(sf::Color::Red);
-		}
-		else
-		{
-			drawHitBox = false;
-		}
-		b2body->SetUserData(this);
-	};
 	void setTextureActuelle(sf::Texture* texture) { textureActuelle = texture; };
 	sf::Sprite& getSprite() { return sprite; };
 	b2Body* getB2Body() { return b2body; }
@@ -164,13 +169,8 @@ public:
 	};
 	std::shared_ptr<b2Shape>& getShape() { return shape ; };
 	void setShape(std::shared_ptr<b2Shape> shapey) { shape = shapey; };
-	//void setShape( shapey) { shape=shapey ; };
-	//void setShape(b2PolygonShape& shapey) { shape=shapey ; };
-	
-	//b2Body* getB2Body() { return b2body; }
-	b2World* getWorld() { return world; };
-	//sf::Texture* getTexture() { return world; };
-	const int  getCurrentID() const {
+		b2World* getWorld() { return world; };
+		const int  getCurrentID() const {
 		return currentID;
 	};
 	~Body()
@@ -179,7 +179,6 @@ public:
 	
 protected:
 
-	//b2CircleShape shape;
 	std::shared_ptr<b2Shape> shape;
 	b2Fixture* fixture=nullptr;
 	sf::Texture* textureActuelle;

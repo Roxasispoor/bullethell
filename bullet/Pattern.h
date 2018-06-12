@@ -1,6 +1,6 @@
 #pragma once
 #include "Character.h"
-#include "AbstractSpawner.h"
+
 #include "Bullet.h"
 #include <vector>
 #include "Reflection.h"
@@ -11,18 +11,23 @@
 class Bullet;
 class Character;
 //Classe qui permet de charger en mémoire les pattern / les tirer
-class Pattern:public AbstractSpawner
+class Pattern:public Body
 {
 
 
-public:
+public:	
+	/// <summary>
+	/// Creates from XML bullets.
+	/// </summary>
+	/// <param name="patternNode">The pattern node.</param>
+	/// <param name="textureMap">The texture map.</param>
 	void createFromXml(pugi::xml_node patternNode, std::map<std::string, sf::Texture> &textureMap);
-	//permet de charger les bullets en mémoire, mais n'instancie pas les objets physiques
+	
 	Pattern(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, std::shared_ptr<b2Shape> shape) :
-		AbstractSpawner(world, texture, myBodyDef, fixtureDef,shape) {
+		Body(world, texture, myBodyDef, fixtureDef,shape) {
 			
 	};
-	//~Pattern();
+
 	void setOwner(Character* ownere) { owner = ownere; }
 	void createShoot();
 	void updatePhysics();
@@ -36,10 +41,6 @@ public:
 	{
 		return std::make_unique<Pattern>(*world, textureActuelle, myBodyDef, myFixtureDef,shape);
 	};
-	//void setTimer(std::chrono::high_resolution_clock::time_point timerino) { timer = timerino; };
-	/*Pattern(Pattern& const pattern) :Pattern(*pattern.world, pattern.textureActuelle, pattern.myBodyDef, pattern.myFixtureDef){	
-	
-	}*/
 	std::chrono::system_clock::time_point& getTimer() { return timer; };
 	void setTimerNow() { timer = std::chrono::system_clock::now(); };
 	bool getIsActivated() { return isActivated; };

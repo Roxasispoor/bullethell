@@ -4,12 +4,132 @@
 
 
 
+GameManager::GameManager()
+	:gravity(0, 0), world(gravity), textureMap(),
+	window(sf::VideoMode(1920, 1080), "Bullet heaven", sf::Style::Fullscreen) {
+	srand(time(NULL));
+
+
+	world.SetContactListener(&listenner);
+	listenner.setGameManager(this);
+	
+	
+	for (auto x : aliasFichierNames) //On remplit les textures et on les mets a jour
+	{
+
+		textureMap[x.second];
+		if (!textureMap[x.second].loadFromFile(x.first))
+		{
+			std::cout << "erreur de chargement de " << x.first;
+		}
+	}
+	createPatternsFromXml("../patterns.xml");
+	b2FixtureDef fixturePlayer;
+	b2CircleShape shapePlayer;
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody; //this will be a dynamic body
+	shapePlayer.m_radius = 5;
+
+	fixturePlayer.shape = &shapePlayer; //sera copiée, np
+	//Initialise un joueur, et son pattern
+	joueurs.push_back(Player(world, &textureMap["joueur"], bodyDef,
+		fixturePlayer, std::make_shared<b2CircleShape>(shapePlayer), 100.f));
+	
+	joueurs[0].createPhysical();
+	joueurs[0].getPatterns().push_back(patternsPossibles[1]);
+	joueurs[0].getPatterns()[0].setOwner(&joueurs[0]);
+
+
+//On load les ennemis et on leur donne les patterns qu'il faut
+
+	pugi::xml_document documentEnnemies;
+	if (!documentEnnemies.load_file("../ennemies.xml"))
+	{
+		std::cout << "Error lors du loading de ennemies";
+	}
+	pugi::xml_node docEnnemies = documentEnnemies;
+
+	for (pugi::xml_node nod = docEnnemies.first_child(); nod; nod = nod.next_sibling())
+	{
+		b2BodyDef ennemydef;
+		b2FixtureDef fixtureEnnemy;
+		ennemydef.position.x = nod.attribute("departX").as_float();
+		ennemydef.position.y = nod.attribute("departY").as_float();
+		ennemydef.angle = nod.attribute("angle").as_float();
+
+		std::string forme = nod.attribute("shape").as_string();
+		if (forme == "Circle")
+		{
+
+			std::shared_ptr<b2Shape> shape = std::make_shared<b2CircleShape>();
+			shape->m_radius = nod.attribute("radius").as_float();
+			fixtureEnnemy.shape = shape.get();
+
+
+			Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy, shape, nod.attribute("life").as_float());
+
+			for (pugi::xml_node nodie = nod.first_child(); nodie; nodie = nodie.next_sibling())
+			{
+				int numPattern = nodie.attribute("value").as_int();
+				if (numPattern < patternsPossibles.size())
+				{
+					ennemi.getPatterns().push_back(patternsPossibles[numPattern]);
+					ennemi.getPatterns()[ennemi.getPatterns().size() - 1].setOwner(&ennemi);
+					ennemi.getPatterns()[ennemi.getPatterns().size() - 1].createPhysical();
+				}
+
+			}
+
+
+			ennemisPossibles.push_back(std::move(ennemi));
+		}
+		if (forme == "Rectangle")
+		{
+
+			auto shape = std::make_shared<b2PolygonShape>();
+			shape->SetAsBox(nod.attribute("width").as_float(), nod.attribute("height").as_float());
+
+			std::shared_ptr<b2Shape> shape2 = shape;
+			Ennemy ennemi(world, &textureMap[nod.attribute("texture").as_string()], ennemydef, fixtureEnnemy, shape2, nod.attribute("life").as_float());
+
+			fixtureEnnemy.shape = shape2.get();
+
+			for (pugi::xml_node nodie = nod.first_child(); nodie; nodie = nodie.next_sibling())
+			{
+				int numPattern = nodie.attribute("value").as_int();
+				if (numPattern < patternsPossibles.size())
+				{
+					ennemi.getPatterns().push_back(patternsPossibles[numPattern]);
+					ennemi.getPatterns()[ennemi.getPatterns().size() - 1].setOwner(&ennemi);
+					ennemi.getPatterns()[ennemi.getPatterns().size() - 1].createPhysical();
+				}
+
+			}
+			ennemisPossibles.push_back(std::move(ennemi));
+			ennemisPossibles[ennemisPossibles.size() - 1].getPatterns()[ennemi.getPatterns().size() - 1].setOwner(&ennemisPossibles[ennemisPossibles.size() - 1]);
+		}
+
+	}
+
+};
+
 GameManager::~GameManager()
 {
 }
 
 void GameManager::mainLoop()
 {
+	sf::Font font;
+	if (!font.loadFromFile("../arial.ttf"))
+	{
+		std::cout << "error loading font";
+		// error...
+	}
+	sf::Text text;
+
+	// select the font
+	text.setFont(font);
+
 	sf::Music music;
 	if (!music.openFromFile("../Evil Approach.wav"))
 	{
@@ -20,6 +140,7 @@ void GameManager::mainLoop()
 	
 	ennemisEnVie.push_back(ennemisPossibles[0]);//*(static_cast<Ennemy*>(ennemisPossibles[0].clone().get())));
 	ennemisEnVie[0].createPhysical();
+	//maraboutage pour faire tourner le pattern
 	patternsPossibles[0].getBodyDef().angularVelocity = 2.0f;
 	ennemisEnVie[0].getPatterns()[0].createPhysical();
 	ennemisEnVie[0].getPatterns()[0].getB2Body()->SetAngularVelocity(2.f);
@@ -28,33 +149,25 @@ void GameManager::mainLoop()
 	{
 		patterns.setOwner(&ennemisEnVie[0]);
 	}
-//	ennemisEnVie[0].getPatterns()[0].getB2Body()->SetAngularVelocity(0.3);
-
 	auto previous = std::chrono::system_clock::now();
 	std::chrono::duration<double> durationFrame(1 / FPS);
 	std::chrono::duration<double> lag;
-	//const int maxSteps = 5;
-	while (window.isOpen())
+		while (window.isOpen())
 	{
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			// fermeture de la fenêtre lorsque l'utilisateur le souhaite
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
 		auto current = std::chrono::system_clock::now();
 		std::chrono::duration<double> elapsed = current - previous;
-		//Si on a trop de frame de retard on
-		//elapsed = std::min(elapsed, maxSteps * durationFrame);
+		//Si on a trop de frame de retard
 		previous = current;
 		lag += elapsed;
 		
 		while (lag >= durationFrame);
 		{
-
-			//const int nStepsClamped = std::min(nSteps, MAX_STEPS);
-				//update world
 			for (auto &joueur : joueurs)
 			{
 				joueur.input();
@@ -77,13 +190,31 @@ void GameManager::mainLoop()
 			window.clear(sf::Color::Black);
 			for (auto &joueur : joueurs)
 			{
+				if (joueur.isDead())
+				{
+					text.setFillColor(sf::Color::Red);
+					text.setCharacterSize(24);
+					text.setPosition(300, 300);
+					text.setString("YOU LOSE");
+					text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+					window.draw(text);
+				}
 				for (auto &pattern : joueur.getPatterns())
 				{
+
 					pattern.deleteAtEndStep();
 				}
 			}
 			for (auto &ennemi : ennemisEnVie)
 			{
+				if (ennemi.isDead())
+				{
+					text.setFillColor(sf::Color::Red);
+					text.setCharacterSize(24);
+					text.setPosition(800, 300);
+					text.setString("YOU WIN");
+					window.draw(text);
+				}
 				for (auto &pattern : ennemi.getPatterns())
 				{
 					pattern.deleteAtEndStep();
@@ -145,7 +276,6 @@ void GameManager::createPatternsFromXml(std::string patternsFile)
 			newPattern.getBodyDef().angularVelocity = 2.0f;
 			newPattern.createFromXml(nod,textureMap);
 			patternsPossibles.push_back(newPattern);
-//			patternsPossibles[patternsPossibles.size()-1].createPhysical();
 
 		}
 		else

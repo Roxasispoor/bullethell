@@ -1,7 +1,7 @@
 #pragma once
 #include "Character.h"
 /// <summary>
-/// Character qui peut recevoir les input utilisateurs + mana et autres.
+/// Character qui peut recevoir les input utilisateurs 
 /// </summary>
 /// <seealso cref="Character" />
 class Player :
@@ -16,8 +16,7 @@ public:
 		Character(world, texture, myBodyDef, fixtureDef,shape,lifemax) {
 		
 	};
-	//~Player();
-	virtual std::unique_ptr<Body> clone()
+		virtual std::unique_ptr<Body> clone()
 	{
 		return std::make_unique<Player>(*world,textureActuelle,myBodyDef, myFixtureDef,shape,vieMax);
 	};

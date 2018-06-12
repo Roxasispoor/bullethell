@@ -134,7 +134,12 @@ void Pattern::createShoot()
 		Bullet newBullet(bullets[(bulletIndice+1)%bullets.size()]);
 		
 		newBullet.getBodyDef().position += position ;// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
-		newBullet.getBodyDef().angle += angle;// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
+		newBullet.getBodyDef().angle += angle;
+		float normeForce = newBullet.getBodyDef().linearVelocity.Length();
+		newBullet.getBodyDef().linearVelocity.x = normeForce * cos(newBullet.getBodyDef().angle);
+		newBullet.getBodyDef().linearVelocity.y = normeForce * sin(newBullet.getBodyDef().angle);
+		
+		// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
 		//TODO modifier pour prendre le pattern
 		
 		currentBullets.push_back(std::vector<Bullet>());
@@ -195,11 +200,12 @@ void Pattern::createShoot()
 					//currentSymetrised.getBodyDef().position += position;// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
 					//currentSymetrised.getBodyDef().angle += angle;
 					currentSymetrised.setOwner(owner);
-					
+					//currentSymetrised.getBodyDef().position += position;// va faire un peu nimp niveau pointeurs vers body, mais osef puisqu'on le réinitialise avec create physical
+					//currentSymetrised.getBodyDef().angle += angle;
 				//	currentSymetrised.getBodyDef().position = b2body->GetPosition();
 					if (!reflection->getIsAbsolute())
 					{
-						reflection->setPointDepart(owner->getB2Body()->GetPosition());
+						reflection->setPointDepart(position);
 					}
 				 		
 					reflection->applyReflection(currentSymetrised.getBodyDef());

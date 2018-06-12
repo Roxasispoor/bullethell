@@ -1,5 +1,8 @@
 #pragma once
 #include "Box2D/Box2D.h"
+/// <summary>
+/// Classe mère permettant de modifier des bodydef et de les répéter
+/// </summary>
 class Reflection
 {
 public:
@@ -13,7 +16,7 @@ public:
 	int getnumberCopies() { return numberCopies; };
 	bool getIsAbsolute() {	return isAbsolute;};
 	bool getCenteredOnEnnemy() {	return centeredOnEnnemy;};
-	void setPointDepart(b2Vec2 pos) { centre = pos+decalage; };
+	void setPointDepart(b2Vec2 pos) { centre = pos; };
 protected:
 	b2Vec2 centre;
 	b2Vec2 decalage;

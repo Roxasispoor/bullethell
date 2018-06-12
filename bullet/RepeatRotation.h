@@ -1,5 +1,9 @@
 #pragma once
 #include "Reflection.h"
+/// <summary>
+/// Permet de décaler les bodydef d'un angle angleDiff
+/// </summary>
+/// <seealso cref="Reflection" />
 class RotationOnce :
 	public Reflection
 {

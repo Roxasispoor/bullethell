@@ -10,48 +10,15 @@ class Bullet;
 class Bullet :public Body
 {
 public:
-	//SHAPE IS CLONED BY BOX2d
-	//Bullet():Body(&new b2World(b2Vec2_zero)) { 	};
 	Bullet(b2World &world, sf::Texture* texture, b2BodyDef myBodyDef, b2FixtureDef fixtureDef, float damage,
 		Character* owner,bool centerOnEnnemy,bool towardEnnemy,std::shared_ptr<b2Shape> shape,
 		std::chrono::milliseconds milliseconds)
 		:Body(world, texture, myBodyDef,fixtureDef, shape), owner(owner), damage(damage)
 		, centerOnEnnemy(centerOnEnnemy), towardEnnemy(towardEnnemy), elapsed(milliseconds) {
-		
-		
-		//identifiant++;
-		
-		
+		sprite.setColor(sf::Color(rand() % 255, rand() % 255, rand() % 255));
 	};
 	Bullet() = delete;
-//	Bullet(const Bullet & truc) = delete;
-	Bullet &operator=(Bullet other)
-	{
-		//*this = other; => JE le laisse pour les perles des bugs qui sont longs, chiants a débuggers et non verbeux
-		
-		damage = other.damage;
-		owner = other.owner;
-		toDelete = other.toDelete;
-		centerOnEnnemy = other.centerOnEnnemy;
-		towardEnnemy = other.towardEnnemy;
-
-		//	int numeroReflection; // c'est egalement le numero de l'indice du boulet
-		 elapsed=other.elapsed;
-
-
-		Body::operator=(other);
-		
-
-	//	currentID = other.currentID;
-
-		myBodyDef.userData = this;
-		if (b2body)
-		{
-			b2body->SetUserData(this);
-		}
-
-		return *this;
-	}
+	Bullet &operator=(Bullet other);
 	
 	virtual void preContact(Body* other) override;// Implementation patron multi dispatcher celui-ci 
 	virtual void preContact(Character* other);
@@ -65,7 +32,10 @@ public:
 	virtual void endCollision(Character* other);
 	
 	bool getToDelete() const { return toDelete; };
-
+	/// <summary>
+	/// Clones this instance. Inusité
+	/// </summary>
+	/// <returns></returns>
 	virtual std::unique_ptr<Body> clone()
 	{
 
@@ -75,7 +45,6 @@ public:
 	virtual std::unique_ptr<Body> clone(Reflection& symetry);
 	std::chrono::milliseconds& getElapsed() { return elapsed; };
 	void setOwner(Character *ownere) { owner = ownere; };
-	//std::map<Bullet, Reflection> & getBulletReflection() { return bulletReflection; };
 
 	void setToDelete(bool toD) { toDelete = toD; };
 	Character* getOwner() {	return owner;};
@@ -89,8 +58,6 @@ private:
 	bool toDelete=false;
 	bool centerOnEnnemy;
 	bool towardEnnemy;
-	
-//	int numeroReflection; // c'est egalement le numero de l'indice du boulet
 	std::chrono::milliseconds elapsed;//temps nécessaire pour passer au suivant.
 };
 
