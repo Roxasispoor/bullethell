@@ -16,7 +16,6 @@ public:
 		Character(world, texture, myBodyDef, fixtureDef,shape, lifemax) { hauteurInSprite = 2;
 
 	};
-	~Ennemy();
 	void input()
 	{
 		

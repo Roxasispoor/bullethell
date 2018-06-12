@@ -2,6 +2,6 @@
 <GtaTestDurations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Executable>E:\cours\JIN\c++\lool\bullet\Debug\Sample-Test1.exe</Executable>
   <TestDurations>
-    <TestDuration Test="TestCaseName.TestName" Duration="1" />
+    <TestDuration Test="TestCaseName.TestName" Duration="424" />
   </TestDurations>
 </GtaTestDurations>

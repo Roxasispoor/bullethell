@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<Ennemy texture="ghostmaiden" departX="1000" departY="400" shape="Circle" radius="10" life="500" >
+<Pattern value="0"/> <!-- numero du pattern dans la liste des patterns -->
+</Ennemy>

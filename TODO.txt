@@ -1,0 +1,6 @@
+Initialiser les vies V
+Mettre des dégats au bons endroits V
+Modifier l'angle et la speed depuis pattern et non owner 
+mettre la hit box au bon endroit pour les rectangles V
+Mettre la musique
+Débugger les reflexions

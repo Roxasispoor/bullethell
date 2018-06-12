@@ -1,35 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Body" Collapsed="true">
-    <Position X="4.5" Y="2" Width="1.5" />
+    <Position X="9.5" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEIAAAACAICAAAAARAAAAARIAAAIAAAAAEAAAAAA=</HashCode>
+      <HashCode>ADgAMIQAAhDAqOAAEBIRAAAAARIAAAMAAAAoEAQQRAg=</HashCode>
       <FileName>Body.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Bullet" Collapsed="true">
-    <Position X="5.25" Y="0.75" Width="1.5" />
+    <Position X="8.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAoAAIAAQAAAAAAQIAAAIEAIAAEAAQAAA=</HashCode>
+      <HashCode>AAgAiAAAAAAAoAAIAAQAAAAAAQIAAAIAAMDoEAAQAAA=</HashCode>
       <FileName>Bullet.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AbstractSpawner" Collapsed="true">
-    <Position X="3.25" Y="0.75" Width="1.5" />
+  <Class Name="Character">
+    <Position X="7.75" Y="3.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAQ=</HashCode>
-      <FileName>AbstractSpawner.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Character" Collapsed="true">
-    <Position X="7.75" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAIAAAEEAIIgIAGAAAAAACAEAAKAAAAAEQAAAAAwKAA=</HashCode>
+      <HashCode>AAIACAAEAIIkMAGAAAIAACAEAJKACAIABAAAAAAwCAA=</HashCode>
       <FileName>Character.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Command">
-    <Position X="7.25" Y="5" Width="1.5" />
+    <Position X="11.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAAAAAAACAAAAAEBAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Command.h</FileName>
@@ -39,44 +32,64 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Ennemy">
-    <Position X="7.5" Y="0.75" Width="1.5" />
+    <Position X="12" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAAgAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAABAAAAAAEAAAAAA=</HashCode>
       <FileName>Ennemy.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameManager">
-    <Position X="2.75" Y="3.25" Width="1.5" />
+    <Position X="3" Y="3" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAEAgAAIAAAAYBAAAAAAAQAIAAAAAAAAAAACBQAAA=</HashCode>
+      <HashCode>AAASEAgBAJAAQCaBAAAAAAAQEIABAAEIAAAAAQBQAAA=</HashCode>
       <FileName>GameManager.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="joueur" />
+      <Field Name="listenner" />
     </ShowAsAssociation>
   </Class>
   <Class Name="MyContactListener">
-    <Position X="9.75" Y="4.5" Width="1.5" />
+    <Position X="0.5" Y="5" Width="1.75" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <HashCode>QEAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
       <FileName>MyContactListenner.h</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="gameManager" />
+    </ShowAsAssociation>
   </Class>
-  <Class Name="Pattern" Collapsed="true">
-    <Position X="1.5" Y="2.25" Width="1.5" />
+  <Class Name="Pattern">
+    <Position X="5.25" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAIAAAAAAAAAAUAAAAAgAAAAAAAQAAAAA=</HashCode>
+      <HashCode>AAwAAAAAAIAAoAAgIAIA4AAUAoAAAAAAUQAAEABAAAA=</HashCode>
       <FileName>Pattern.h</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="owner" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Player" Collapsed="true">
-    <Position X="5.25" Y="4" Width="1.5" />
+    <Position X="7.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAEQAEABA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAEQAEAAA=</HashCode>
       <FileName>Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Reflection" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAQQEBIEAAAAACAIAAAAAAAIgAAAgAAAAAAAAQ=</HashCode>
+      <FileName>Reflection.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RotationOnce" Collapsed="true">
+    <Position X="1.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAEAAAAAAAAAgAAAAAAAEA=</HashCode>
+      <FileName>RepeatRotation.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

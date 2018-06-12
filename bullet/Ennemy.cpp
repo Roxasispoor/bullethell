@@ -4,7 +4,3 @@
 
 
 
-
-Ennemy::~Ennemy()
-{
-}

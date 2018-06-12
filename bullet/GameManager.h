@@ -15,10 +15,19 @@ class GameManager
 	
 public:
 	GameManager(); 
-	~GameManager();
 	void mainLoop();
 	void render(double timeOnNextFrame);
 	void createPatternsFromXml(std::string patternsFile);
+	
+	b2World& getWorld() { return world; };
+
+	std::vector<Pattern>& getPatternsPossibles() { return patternsPossibles; };
+	std::map<std::string, sf::Texture>& getTextureMap(){ return textureMap; };
+	std::vector<Player>& getJoueurs() { return joueurs; };
+	std::vector<Ennemy>& getEnnemisPossibles(){return ennemisPossibles; };
+	std::vector<Ennemy>& getEnnemisEnVie() { return ennemisEnVie; }; 
+	MyContactListener& getListenner() { return listenner; };
+
 
 private:
 	
