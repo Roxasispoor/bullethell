@@ -12,3 +12,10 @@
 <Bullet departX="0"  departY="10" speed="0.2" angle="0" towardEnnemy="false" centeredOnEnnemy="true" shape="Circle" radius="10" texture="bullet" damage="20" temps="0"/> 
 <Bullets>
 </Pattern>
+<Pattern departX="0" departY="5" angle="0" texture="spawner">
+<Reflection>
+</Reflection>
+<Bullets>
+<Bullet departX="0" departY="0" speed="0.6" angle="0" towardEnnemy="true"  centeredOnEnnemy="false" shape="Circle" radius="8" texture="bullet" damage="10" temps="100"/> 
+</Bullets>
+</Pattern>

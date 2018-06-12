@@ -239,8 +239,17 @@ void Pattern::createShoot()
 
 void Pattern::updatePhysics()
 {
-	position=myBodyDef.position + owner->getB2Body()->GetPosition();
-	angle= myBodyDef.angle + owner->getB2Body()->GetAngle();
+	if (b2body)
+	{
+		position = b2body->GetPosition() + owner->getB2Body()->GetPosition();
+		angle = b2body->GetAngle() + owner->getB2Body()->GetAngle();
+	}
+	else
+	{
+		position = myBodyDef.position + owner->getB2Body()->GetPosition();
+		angle = myBodyDef.angle + owner->getB2Body()->GetAngle();
+
+	}
 	//Si on est activé on shoot ce qu'il faut
 	if (isActivated)
 	{

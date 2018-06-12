@@ -17,13 +17,18 @@ void GameManager::mainLoop()
 	}
 	music.setLoop(true);
 	music.play();
+	
 	ennemisEnVie.push_back(ennemisPossibles[0]);//*(static_cast<Ennemy*>(ennemisPossibles[0].clone().get())));
 	ennemisEnVie[0].createPhysical();
+	patternsPossibles[0].getBodyDef().angularVelocity = 2.0f;
+	ennemisEnVie[0].getPatterns()[0].createPhysical();
+	ennemisEnVie[0].getPatterns()[0].getB2Body()->SetAngularVelocity(2.f);
+
 	for (auto &patterns : ennemisEnVie[0].getPatterns())
 	{
 		patterns.setOwner(&ennemisEnVie[0]);
 	}
-	ennemisEnVie[0].getB2Body()->SetAngularVelocity(0.3);
+//	ennemisEnVie[0].getPatterns()[0].getB2Body()->SetAngularVelocity(0.3);
 
 	auto previous = std::chrono::system_clock::now();
 	std::chrono::duration<double> durationFrame(1 / FPS);
@@ -120,9 +125,16 @@ void GameManager::createPatternsFromXml(std::string patternsFile)
 	for (pugi::xml_node nod = doc.first_child(); nod; nod = nod.next_sibling()) //on parcourt les patterns
 	{
 		b2BodyDef bodydef;
+
 		b2FixtureDef fixdef;
 		std::shared_ptr<b2Shape> shape = std::make_shared<b2CircleShape>();
+		shape->m_radius = 5;
 		fixdef.shape = shape.get();
+		bodydef.type = b2_dynamicBody; //this will be a dynamic body
+//		shapePlayer.m_radius = 5;
+
+		
+
 
 		bodydef.position.Set(nod.attribute("departX").as_float(), nod.attribute("departY").as_float());
 		bodydef.angle = nod.attribute("angle").as_float();
@@ -130,10 +142,10 @@ void GameManager::createPatternsFromXml(std::string patternsFile)
 		if ( nom== "Pattern")
 		{
 			Pattern newPattern(world, &textureMap[nod.attribute("texture").as_string()], bodydef, fixdef,shape);
-					
+			newPattern.getBodyDef().angularVelocity = 2.0f;
 			newPattern.createFromXml(nod,textureMap);
 			patternsPossibles.push_back(newPattern);
-			patternsPossibles[patternsPossibles.size()-1].createPhysical();
+//			patternsPossibles[patternsPossibles.size()-1].createPhysical();
 
 		}
 		else

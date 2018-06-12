@@ -80,6 +80,7 @@ public:
 					{
 						ennemi.getPatterns().push_back(patternsPossibles[numPattern]);
 						ennemi.getPatterns()[ennemi.getPatterns().size()-1].setOwner(&ennemi);
+						ennemi.getPatterns()[ennemi.getPatterns().size() - 1].createPhysical();
 					}
 
 				}
@@ -105,7 +106,8 @@ public:
 					if (numPattern < patternsPossibles.size())
 					{
 						ennemi.getPatterns().push_back(patternsPossibles[numPattern]);
-
+						ennemi.getPatterns()[ennemi.getPatterns().size() - 1].setOwner(&ennemi);
+						ennemi.getPatterns()[ennemi.getPatterns().size() - 1].createPhysical();
 					}
 
 				}
